@@ -13,7 +13,7 @@ Kontroller ve Komutlar :
 
 ***** Buraya kadar olan kisim pc de sadece 1 kez kurmak icin. Bundan sonrakiler projeler icin
 
-5.	python -m venv env
+5.	python -m venv env  
 
 
 6.	env/Scripts/activate >> scriptleri active eder. (Bu komut yerine tek tek cd ile iclerine girip en sonunda activate komutu da calistirilabilir)
