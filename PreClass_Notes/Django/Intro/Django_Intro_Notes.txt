@@ -1,0 +1,303 @@
+
+What is Django?
+Django, genellikle diğer çerçevelerle karşılaştığınız tüm kurulum veya bağımlılık sorunları olmadan kolayca web uygulamaları oluşturmanıza olanak tanıyan Python tabanlı bir web framework udur
+
+Ücretsiz ve açık kaynaktır, gelişen ve aktif bir topluluğa, harika belgelere ve ücretsiz ve ücretli destek için birçok seçeneğe sahiptir.
+
+Features of Django:
+
+Versatility of Django (Cok yönlülük)
+
+Django hemen hemen her türlü web sitesini oluşturabilir. Ayrıca istemci tarafında herhangi bir çerçeve ile çalışabilir ve HTML, JSON, XML vb. herhangi bir formatta içerik sunabilir.
+
+
+Security:
+
+Django güvenliği ciddiye alır ve geliştiricilerin SQL enjeksiyonu, siteler arası komut dosyası çalıştırma, siteler arası istek sahtekarlığı ve tıklama hırsızlığı gibi birçok yaygın güvenlik hatasını önlemesine yardımcı olur.
+Kullanıcı kimlik doğrulama sistemi, kullanıcı hesaplarını ve parolaları yönetmek için güvenli bir yol sağlar.
+
+
+Scalability:
+Django uses a "shared-nothing" component-based architecture (each part of the architecture is independent of the others). Having a clear distinction between the various parts means that by adding hardware at any stage, it can scale for increased traffic: caching servers, database servers, or application servers. Instagram and Disqus are two Django based products that have millions of active users, this is taken as an example of the scalability of Django.
+Instagram and Disqus are two Django based products that have millions of active users, this is taken as an example of the scalability of Django.
+
+
+
+
+Portability:
+
+All the codes are written in Python for the Django framework, which runs on several platforms. This also results in Django running on several platforms, such as Linux , Windows, and Mac OS.
+
+
+
+Why Django?
+Fully functional framework that requires nothing else.
+Easy to switch database in Django
+It has built in admin interface
+Easily create apps and integrate several of those and manage them under one admin panel.
+Thousands of additional packages available.
+It is very scalable.
+
+
+
+
+
+How Django Works:
+
+A web application waits for HTTP requests from the web browser (or other clients) on a conventional data based website. The application figures out what is needed based on the URL and likely information in the POST data or GET data when a request is made. It can then read or write information from a database or perform other tasks needed to fulfill the request, depending on what is needed. The application then returns a response to the web browser, often generating a dynamic HTML page for the browser to view by inserting the collected data into the HTML template placeholders.
+
+Django web applications typically group the code that handles each of these steps into separate files.
+
+
+
+What is MVT (Model, View, and Template):
+A web-framework has a basic model view controller architecture software design pattern for developing web applications, but Django is a bit different in a good way. It implements concept of Model-View-Template (MVT). MVT is slightly different from MVC. In fact, the main difference between the two patterns is that Django itself takes care of the Controller part (Software Code that controls the interactions between the Model and View), leaving us with the template. The template is an HTML file mixed with Django Template Language (DTL).
+
+
+
+A user requests for a resource to the Django, Django works as a controller and check to the available resource in URL (urls.py file). If URL maps, a view (function) is called that interact with model and template, it renders a template. Django responds back to the user and sends a template as a response.
+
+
+URLs: Although it is possible to process requests through a single function from every single URL, writing a separate view function to handle each resource is far more manageable. To redirect HTTP requests to the appropriate view based on the request URL, a URL mapper is used. The URL mapper may also match a unique string or digit patterns that appear in a URL and transfer these as data to a view feature..
+
+View: A view is a request handler function that accepts requests from HTTP and returns HTTP responses. Views access the data needed to fulfill requests through models and delegate the response formatting to the templates.
+
+
+
+Models: A model is the single, definitive source of information about your data. It contains the essential fields and behaviors of the data you’re storing. Generally, each model maps to a single database table.
+
+
+Template: Django needs a convenient way to generate HTML dynamically. The most common approach relies on templates. A template contains the static parts of the desired HTML output as well as some special syntax describing how dynamic content will be inserted.
+
+
+Calisma Prensibi: (Django da Mvt Pattern):
+
+user herhangi bir internet sitesine girmek icin bir url yazar yani bir istek gönderir.
+Bu istek request olrak views.py ye gönderilir. burasi controller dir. Burada kontrol edilen istek querysets olarak model.py ye gönderilir. 
+
+Model.py den ise istek,  database e gönderilir. Burada read write islemlerinden bazilari yada hepsi yapilarak database den models.py ye geri dönüs olur. 
+
+Daha sonra models.py den views.py ye resulsset ler seklinde yanit gönderilir. 
+
+views.py ise response olarak templateler gönderir.
+Bunlarda html css ve js olarak gösterilir.
+
+
+
+
+
+Create an App
+Each application you write in Django consists of a Python package that follows a certain convention. Django comes with a utility that automatically generates the basic directory structure of an app, so you can focus on writing code rather than creating directories.
+
+
+
+
+Projects vs. apps
+What’s the difference between a project and an app? An app is a Web application that does something – e.g., a Weblog system, a database of public records or a small poll app. A project is a collection of configuration and apps for a particular website. A project can contain multiple apps. An app can be in multiple projects.
+
+
+
+
+To create your app, make sure you’re in the same directory as manage.py and type this command:
+
+python manage.py startapp fscohort
+
+
+
+fscohort/__ init __.py: An empty file that tells Python that this directory should be considered a Python package.
+fscohort/admin.py: contains settings for the Django admin pages.
+fscohort/apps.py: contains settings for the application configuration.
+fscohort/models.py: contains a series of classes that Django’s ORM converts to database tables.
+fscohort/tests.py: contains test classes.
+
+To consider the app in your project you need to specify your project name in INSTALLED_APPS list as follows in settings.py:
+
+
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+    # myapps
+    'fscohort'
+]
+
+
+
+
+Write your first view
+Let’s write our first view. Open the file fscohort/views.py and put the following Python code in it:
+
+
+
+# HttpResponse is used to 
+# pass the information  
+# back to view 
+from django.http import HttpResponse
+
+# Defining a function which 
+# will receive request and 
+# perform task depending  
+# upon function definition 
+def index(request):
+
+    # This will return Hello, world. This is fscohort index page.
+    # string as HttpResponse 
+    return HttpResponse("Hello, world. This is fscohort index page.")
+
+
+
+
+
+To call the view, we need to map it to a URL - and for this we need a URLconf.
+
+To create a URLconf in the fscohort directory, create a file called urls.py.
+In the fscohort/urls.py file include the following code:
+
+
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.index, name='index'),
+]
+
+
+
+The next step is to point the root URLconf at the fscohort.urls module. In Clarusway/urls.py, add an import for django.urls.include and insert an include() in the urlpatterns list, so you have:
+
+
+
+
+from django.contrib import admin
+from django.urls import include, path
+
+urlpatterns = [
+    path('fscohort/', include('fscohort.urls')),
+    path('admin/', admin.site.urls),
+]
+
+
+
+
+include() işlevi, diğer URLconf'lara başvurmaya izin verir. Django, include() ile karşılaştığında, o noktaya kadar eşleşen URL'nin hangi bölümünü keser ve kalan dizeyi daha sonraki işlemler için dahil edilen URLconf'a gönderir.
+
+
+
+When to use include()
+
+Diğer URL kalıplarını eklediğinizde her zaman include() kullanmalısınız. admin.site.urls bunun tek istisnasıdır.
+
+
+
+
+Şimdi URLconf'a bir dizin görünümü bağladık. Aşağıdaki komutla çalıştığını doğrulayın:
+
+python manage.py runserver
+
+
+
+
+Go to http://localhost:8000/fscohort/ in your browser, and you should see the text “Hello, world. This is fscohort index page.”, which you defined in the index view.
+
+
+
+
+
+
+
+Login to Admin Site
+One of the most powerful parts of Django is the automatic admin interface that you can use to create, view, update, and delete records. It reads metadata from your models to provide a quick, model-centric interface where trusted users can manage content on your site.
+
+In order to login, we need to create a user who can login to the admin site. Run the following command:
+
+
+
+
+python manage.py migrate
+python manage.py createsuperuser
+
+
+
+name , email and password gir
+
+
+
+Now go to http://127.0.0.1:8000/admin/. You should see the admin's login screen.
+After you login, you should see a few types of editable content: groups and users. They are provided by django.contrib.auth, the authentication framework shipped by Django.
+
+
+
+
+
+
+Django has a user authentication system that provides a secure way to manage user accounts and passwords. (True)
+
+
+
+
+Which command should you run before create a super user?
+python manage.py migrate
+
+
+
+
+Which of the following are true about django ?
+
+Select one or more:
+
+models.py file contains a series of classes that Django's ORM converts to database tables.
+Django is very scalable
+An app is a Web application that does something
+settings.py file contains settings for the application configuration.(False)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

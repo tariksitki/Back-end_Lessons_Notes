@@ -1,0 +1,328 @@
+Klasör icinde yansilar var okuyalim
+
+frontend ile backend arasinda tam ortada api bulunur. api aslinda backend kismina da dahil edilebilir.
+
+api ne yapiyor. api backend dili ile yaziliyor.
+frontend den,  fetch, axios yada http xml yöntemleri ile aldigi istekleri anlamli bir hale getiriyor ve backend e gönderiyor. backend den geri gönderilen response lari da yine front end tarafina getirir
+
+
+
+Backend: (Backend icinde)
+1: Database management
+2: Cloud Storage
+3: User authentication
+4: Push notifications
+5: Hosting
+
+
+Api ve backend bir backend framework u ile yazilir ve ikisinin arkasinda da bir adtabase vardir.
+
+
+
+Data:  Bilgisayar hafizasinda saklanan ve henüz anlamlandirilmamis bir filtreden gecirilmemis bilgi yiginidir. Bu bilgi daha sonra bir website, bir app yada baska bir amac ile kullanilabuilir.
+
+Data,  organizing ve summarizing islmelerinden sonra Information a dönüsür.
+Info ise Analizing ve Synthesizing islmelerinden sonra Knowledge olur
+
+
+
+Mesela, clarusway database de bulunan ögrenci listesi. Diyoruz ki tüm ögrencilerin derse katilim oranlarini toplayalim ve ortalamsini bulalim. ortlamayi gecenlere sertifika verelim. Bu durumda, db de bulunan ögrenci bilgisi islenmis ve anlamli bir hale gelmis oluyor. yani artik data dan Information ve Knowledge a dönüsüyor.
+
+
+
+Database nedir:
+
+Db organize edilir ve bir structure a sahiptir. Depoladigi tüm datayi bu structure icine depolar.
+Database;  datanin depo edilmesine, kolaylikla erisilmesine, manipule edilmesine ve update edilmesine izin verir.
+
+Bir db,  bir db platformu tarafindan hosting edilmeye ve o platform üzerinde kurulmaya ihtiyac duyar.
+Bu platformlardan bir tanesi de PostgreSql dir.
+
+
+
+Sqlite in diger platformlardan farki:  localhost üzerinde calisir. Bu nedenle desktop yada mobil uygulamalarinda yani cevrimdisi kullanilir.
+
+Yani mobil yada desktop da bir app imiz varsa, yüksek oranda sqlite kullaniriz. ama yetkilendirme , kullanici yetkilendirme islemlerinde, cloud da depolama islemleri icin ayni zamanda diger platformlari da kullnaabiliriz.
+Mesela internet kullanamyan bir oyun. son kaldigimiz puan, kac canimiz kaldigi gibi veriler tutuluyor sqlite da.  (disariya kapali bir db)
+
+
+
+• Bir veritabanı yönetim sistemi veya basitçe DBMS, önemli bir
+tanımlayan bir dizi programdan oluşan programlama aracı,
+veritabanlarını yönetin.
+• Bu sayede bir yapı inşa edebilir ve üzerinde işlem yapabilirsiniz.
+veritabanının çok verimli bir şekilde tuttuğu değerli veriler.
+• Bir veritabanı yönetim sistemi, bir veritabanının omurgası (backbone) olarak hareket eder
+ve verilere erişimi ve yönetimi çok daha kolay hale getirir.
+ 
+- yani bir arayüz vasitali ile database in yönetimini saglar
+
+-- app ler direkt olarak db ye baglanmaz. dbms vasitasi ile baglanir.
+(sunulari okuyalim)
+
+
+Aşağıdakiler bir DBMS'nin temel özellikleridir: (CRUD, Recovery, Accessible )
+• Yeni veritabanlarının ve veri yapılarının oluşturulmasına izin verir
+• SQL kullanarak veri sorgulama ve değiştirmeye izin verir
+• Çok büyük miktarda verinin uzun bir süre boyunca depolanmasına izin verir
+• Başarısızlık, hata veya kasıtlı yanlış kullanım durumlarında veritabanı kurtarmayı sağlar (yani sirketlerdde hergün belirli bir saat de db in kaydi yani recovery si alinir. eger bir sikinti olursa bu saat de ki calisir haline dönülür)
+• Aynı anda birçok kullanıcının veri erişimini kontrol eder
+
+Dbms nin en önemli vazifesi crud islemlerine izin verir.
+
+
+
+
+Crud da bulunan her bir harfin frontend de bir karsiligi vardir ve buradaki herbir islem frontend de tetiklenir.
+Yani create islemi icin frontend de axios ile api ye bir istek atilir. api bunun bir create islemi oldugunu anlar ve buna göre db e istek gönderir orada create yapilir.
+
+create/insert :  insert
+
+select:   axios yada fetch de get dir. 
+
+update:  axios da put a karsilik gelir.
+delete:   zaten delete 
+
+
+axios bu komutlar ile api ye istek yaptiktan sonra, gelen cevabi da yine response olarak bize getirir.
+
+
+Kullanici talep de bulunur. Tüm bu istekler dbms e gelir. Burada kullanicinin yetkisi kontrol edilir. Her kullanici yetkisine göre bir response elde eder.
+
+
+
+Relational DB lerin temel özellikleri:
+1: Aktuel data yi tablolar halinde tutar
+2: Sorgulama yaptigimizda bize form olarak döner. Ve bu formlar data girisini ve data görüntülemeyi kolaylastirir
+3: Query ler ile data nin belirli bir kismini görüntüleyebiliriz.
+4: Bize printable olarak rapor formatlari sunuyor.
+5: Macro lar ile bazi komutlari automatize edebiliyoruz.
+Macrolar:  Functionlar, store procedure ler, transaction lar ve trigger lar
+
+
+-- Store procedürler ile normal query lere göre daha hizli yanit alinabilir. 
+
+-- NoSql de en güclü mongoDB
+
+-- Firebase de arka planda noSql db calistirir
+
+
+-- redice;  verileri ram de key value ciftleri seklinde tutar.
+
+Not: Bir app de sadece bir tane db kullanmak zorunda degiliz. birden fazla da kullanilabilir.
+
+
+--- db in performans süresini ölcmek icin SQL Monitor gibi yapilar vardir.
+
+
+-- eger elimizde az sayida veri varsa, ancak cok fazla sayida kullaniciya hizli cevap vermek istiyorsak nosql kullanilir.
+--- ama veri cok ise bu durumda sql (yani karmasik sorgularda relational db ler cok daha iyi performans saglar)
+
+
+Document seklinde veri tutanlar:  mongodb, couchdb
+Grapf:   AllegroGraph
+KeyValue:  Redis
+Wide-Column :(yani satir ve sütun seklinde) : cassandra, apacheDB
+
+
+-- Relational da veriler ayri ayri tablolarda tutulur. Ve bu tablolar primary key ve foreign key ile birbirine baglanir.
+
+-- NoSql de ise zaten birbiri ile iliskili olan veriler sadece bir document yada bir json dosyasi icinde tutulacak. Böylece, join gibi islemlere ihtiyac kalmayacak. yani burada birbiri ile iliskili olanlar tek parca halinde, sql de ise veriler parca parca halinde tutulur.
+
+
+Nosql db ne zaman tercih edilir?
+
+-- Hizli inovation a ihtiyac duyan kurumlarda
+-- Her ölcekte calismaya devam etme zorunlulugu varsa
+-- kati degil esnek semalarimiz varsa
+-- Büyük kullanici sayilarina düsük sürede cevap vermek icin
+
+-- mesela oyunlarda. borsa uygulamalarinda
+
+
+--- sql acilimi query language dir
+
+
+----  Types of SQL Commands:
+
+DDL: data definition language
+	-create
+	-alter : bir tablodaki bir colonun veri tipini güncelleme
+	-drop : tabloyu komple siler null yapar
+	-truncate : tablonun verisini siler yani empty yapar
+		-- truncate yaptik ve sonra yeni bir insert yaptik. eskiden 100 veri vardi. 101 den mi devam eer 1 den mi baslar
+	-rename
+
+
+
+DML : data manupulation 
+DCL : Data control
+	-- grant ve revoke islemlerinden olusur. 
+	-  user bazli yetkilendirmeler icin kullanilir. mesela sadece admin yetkisine sahip kisiler giris yapabilsin
+
+TCL : transaction control language:
+	- commit
+	- rollback
+	- saveprint
+
+
+
+-- Select manipule degildir. bu nedenle DQL(Data query language olarak gecer)
+
+-- sql de herhangi birsey yazmadan yapilan join  e cross join denir.
+
+
+
+
+
+
+-------------- Transactional Control Commands:
+
+TCC allow users to manipulate various transactions in maintaining database integrity.
+Birbirine bagli islemler bütünü
+yada icerisinde birden fazla query barindiran islemler bütünü
+
+- COMMIT
+- Rollback
+- Savepoint
+
+
+---Mesela bankada para havale islemi. Biz para gönderdigimizde bizim hesabimizdan para kesilme ve arkadasimizin  hesabina para eklenme islemi bir transaction dir. 
+Eger bu iki islem de basarili olursa bu durumda transaction succeeded olur. herhangi biri basarisiz olur ise bu durumda transaction failed olur.
+
+Mesela bizden para kesildi ama arkadasimiza gönderirken hata olustu. Bu durumda islem hic yapilmamis gibi en basa döner ve bizim paramiz iade edilir.
+
+
+--mesela sepet de ki 10 ürünü silerken 5 tanesi silindikten sonra elektrik gitti.
+Bu durumda tekrar calistiginda tamamlamaya calisir. eger yapamazsa tamamen iptal eder.
+
+--- Transaction islemlerini manuel yapmak cok zor. Bu nedenle bunu programlar ile yapariz.
+
+mesela bir tanesi Unit of Work
+
+--- internette arama yaparken "Transaction management system"
+
+
+ 
+----------------- ORM (Object Relational Mapping) :
+
+Biz Django da saf bir sql sorgusu yazmayacagiz. Biz Python da object oriented olarak class lar yazacagiz. bizim yazdigimiz bu kodlar ORM vasitasi ile sql sorgusuna cevrilecek.
+
+ORM;  Python code ile Database arasinda bir köprü vazifesi görür.
+
+
+
+--- Code First Yaklasimi:  Eger elimizde hazir python kodumuz varsa, bu durumda kod ile basanir ve böylece database kod ile insa edilir.
+
+
+--- Database first:  eger elimizde hazir bir database var ise bu durumda, db den baslanir ve bu db ye uygun kod yazilir.
+
+
+--  Model First: eger ikisi de yoksa ve elimizde bir DB Modeling varsa Model first kullanilir. Modeller ile db olusturulmaya calisilir.
+
+----  eger bu da yok ise bu durumda, Codefirst yada Db First arasinda tercih yapilir.
+
+
+
+
+---------  ERD (Entity Relationships Diagram):
+
+Database sistemlerinin yapisini diagram ile bize gösterir. Yani veriler arasinda one to one mi yoksa onetomany mi iliski oldugunu gösterir.
+
+ER Diagrams are most often used to design relational databases 
+
+	- Entity (varlik) : Object oriented da instance a karsilik gelir. Class lar db deki tablolara karsilik gelir. Bu class lardan olusturulan somut örnekler ise entity yani varlik tir.
+
+	- Attribute: OOP deki property ye karsilik gelir. Her bir entity ye ait özellikler.
+
+	- Relationship: Entity ler arasindaki iliski
+
+
+--- One to One:  anne ve cocuk arasi iliski
+--- one to many:  bir anne 3 cocuk
+--- many to many:
+
+
+
+
+
+
+
+
+-------------------  Postgre Sql:
+
+--- a relational and open source db manegement system
+-- developed at University of California
+-- It supports a large part of Sql standart and offers many modern features:
+
+
+
+1: Complex querys
+2: Foreign Keys
+3: Triggers
+4: Updatable Views
+5: Transaction management
+6: Multiversion(every year a major version)
+7: Json  data type ini default olarak kendi icinde barindirir bu da bizim isimizi kolaylastirir.
+
+-- Postgresql de data type larindan biri de uuid dir.
+-- unique id anlamina gelir.
+-- bu type in kendine ait bir algoritmasi vardir ve 100 üzeri 3 seklinde ihtimal ile id üretir.
+
+
+
+- inner join: kesisim
+- full join: hem kesisim hem de iki kümenin her yeri (diger adi cross join)
+- left join: kesisim ve sol taraf
+- right join: kesisim ve sag taraf
+
+
+
+
+--- primary key ve foreign key lerin ikisine birden Constraint denir.
+
+
+
+
+--- Views:  bir query yazdigimizda, bize tablo seklinde dönen response dir.
+
+-- Indexes: Primary key e benzer. mesela sorgu yazdigimizda ve 100 yazdigimizda 1 den baslayarak sira ile gitmez. direkt o sayiya gider.
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

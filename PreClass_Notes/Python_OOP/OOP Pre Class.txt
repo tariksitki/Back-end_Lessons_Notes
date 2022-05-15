@@ -1,0 +1,114 @@
+The key notion of the OOP is, naturally, a/an [object]. There are a lot of real-world objects around you: pets, buildings, cars, computers, planes, you name it. Even a computer program may be considered as an object.
+
+It's possible to identify some important characteristics of real-world objects. For instance, for a building, we can consider a number of floors, the year of construction and the total area. Another example is a plane that can accommodate a certain number of passengers and transfer you from one city to another. These characteristics constitute the object's [attributes and methods]. [attributes] characterize objects' data or states, and [methods] — its behavior.
+
+Programs are made from different objects interacting with each other. An object's [state and behavior] are usually placed together, but it's not always so. Sometimes, we will see objects without a state or method. This, of course, depends on the purpose of the program and the nature of an object.
+
+
+[Data encapsulation] is the mechanism of hiding the internal data of objects from the world. All interaction with the object and its data are performed through its public methods.  It allows programmers to protect the object from inconsistency.
+
+
+Which of the following choices are the basic principles of OOP?
+
+Data encapsulation, 
+Inheritance,
+polymorfism
+abstraction
+
+
+another name of a class:
+
+Type
+Blueprint
+Template
+
+
+
+Which among the following is the other name of the field? (Attribute)
+
+
+
+Data abstraction means that objects should provide the simplified, abstract version of their implementations. Abstraction also means that only the most relevant features of the object will be presented.
+
+
+
+
+Access 
+modifiers
+  (or access specifiers) are 
+keywords
+  in object-oriented languages that set the accessibility of 
+classes
+ , methods, and other 
+members
+ .
+
+
+
+A getter is a method that gets the value of a property.
+
+
+
+Data members should be protected from direct access by encapsulation.
+
+
+
+What would be the most appropriate name if you want to implement an interface called read?  (reader)
+
+
+What would be the most appropriate name if you want to implement an interface called transform? (transformer)
+
+
+
+Each object is characterized by [state] and [behavior].
+
+
+
+ [Transferring passengers] is not an attribute of the plane object.
+(Bu behavior oldugu icin method dur)
+
+
+
+An object keeps the current state in the [fields and the behavior in the methods]. (field dedigimiz attribute larin diger adidir)
+
+
+
+
+"The name (or interface) stays the same, but the actions performed may be different. In practice, it is done with overloading or overriding."
+
+Which of the following is directly related to the definition above? (Polymorphism)
+
+
+
+
+Often objects are very similar, so inheritance allows programmers to use only specific logic and at the same time introduce unique concepts into the classes. (False)
+
+
+
+The getter allows you to check a provided value before you use it in your internal field. (True)
+
+
+
+Some keywords or name conventions are used to restrict access to the attributes of a class for protecting the data. (True)
+
+
+
+What is an Interface? (A collection of methods that describes the behavior of an object.)
+
+
+
+The behavior of an object change during the execution of a program. That's the difference between people and objects. (Tam tersi)
+
+
+
+
+
+
+
+
+
+
+
+
+
+

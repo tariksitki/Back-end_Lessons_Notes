@@ -1,0 +1,181 @@
+Kontroller ve Komutlar : 
+1.	python --version   >> python sürümünü kurulumunu kontrol için 
+
+
+2.	pip list    >>   kurulu paketleri gösterir(pip python a ait paket yönetim sistemi)
+
+
+3.	python -m pip install Django >> django yüklü değilse yükleyelim
+
+
+4.	pip install virtualenv  >> VirtualEnv, projelerinizde gerekli olan paketleri sistemden bağımsız bir şekilde kurup, kullanmanızı sağlayacak sanal ortam sağlayan bir yapıdır.
+
+***** Buraya kadar olan kisim pc de sadece 1 kez kurmak icin. Bundan sonrakiler projeler icin
+
+5.	python -m venv env
+
+
+6.	env/Scripts/activate >> scriptleri active eder. (Bu komut yerine tek tek cd ile iclerine girip en sonunda activate komutu da calistirilabilir)
+
+7. pip install django >> proje/app  dosyası içinde tekrar kuralım çünkü sanal ortamdayız. 
+(Simdi pip list yada pip freeze yaptigimizda, izole edilmis alanimiz icinde yüklü olan paketleri gösterir. ama mesela yeni bir powershell acip burada pip list dersek bir cok paket gösterir. Cünkü burada env icinde degiliz. komple pc miz icindeyiz)
+
+
+7.	python -m django startproject projeadı  
+
+	django-admin startproject projeadı 
+
+olarak da kullanilabilir.
+
+
+8.	yukaridaki komut ile proje ismimiz adinda bir klasör olusur. Bunun içerisinde aynı isimde bir klasör daha oluşacak. Ona proje klasörü denir. ve birde manage.py dosyasi olusur. Bu durumu engellemek icin kodun sonuna . konulur
+
+
+9.	proje genel bir klasör. Proje içerisine uygulamalar oluşturacağız.
+
+
+10.	cd ile projenin içine girin.
+
+
+11.	Uygulamanızı oluşturmak için Manage.py ile 
+aynı dizinde olduğunuzdan emin olun ve şu komutu yazın:
+
+
+12.	python manage.py startapp appadi   (app adinda büyük harf olmayacak)
+
+
+13.	İstediğimiz kadar uygulama(app) oluşturabiliriz istersek bir tane üzerinden de projeyi götürebiliriz.
+
+
+14.	Uygulamayı projenizde dikkate almak için, 
+settings.py'de aşağıdaki gibi INSTALLED_APPS listesinde 
+proje adınızı belirtmeniz gerekir:
+
+
+INSTALLED_APPS = [
+   'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+    # myapps
+    'appadı' 	]
+
+
+15.	py manage.py runserver	 (projeyi çalıştırır terminalde çıkan http ye git) (eger calismaz ise python manage.py runserver)
+
+
+16.	ctrl + c  >> uygulamayı durdurur
+
+
+17.	proje altında urls.py dosyasına gelelim. Url ekleme projeye gelen istekleri karşılar. Uygulama(app) dosyasında yeni bir urls.py dosyası oluşturalım.
+
+
+18.	app içindeki urls içine :
+from django.urls import path
+from. import views
+
+urlpatterns=[path("", views.home)]
+
+
+19.	app içinde templates klasörü oluşturalım. isim opsiyonel değil. içerisinde index.html oluşturalım. içerisine  <h1>Hello World</h1> yazalım. (Burada normal ! enter diyerek normal html sayfa template i de olusturabilirz. ve bunun icine h1 yazilabilir.)
+
+
+20.	yine app içindeki views.py içine gelelim:
+from django.shortcuts import render
+def home(request):   
+return render(request, "index.html")
+
+
+21.	Bunlar ne demek : urls.py içerisinde belirttiğimiz url sonucunda ilgili home metoduna ulaşacağız. views içerisindeki home index.html i return edecek. index.html i views dosyası aynı uygulama altındaki templates klasöründe arar ve getirir.
+
+
+22.	app in çalışması için proje dosyası içindeki urls e tanıtılması gerek. Son hali:
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path("", include("first.urls"))]
+
+
+23.	yeni bir path eklerken slash ın sonda olduğuna dikkat!  >> path('about/', include("first.urls"))
+
+
+
+
+25.	projeyi tekrar çalıştıralım :
+py manage.py runserver 
+				
+				Happy End :)
+
+ MVT açılımı :
+Model : Veri tabanıyla olan ilşki
+View   : Mantıksal işlevler
+Template :  Görünüme yönelik işlevler
+
+
+{% tag %} --> tag
+{{ variable }} --> variable
+{{ variable|filter }} ---> filter
+
+
+Migration :
+python manage.py makemigrations
+(Bu kod bazen calismadiginda sonuna store yaziyor.)
+
+python manage.py migrate
+
+(Bu komutlar ilk table olusumunda ve tabloya her bir column ekleniisinde yapilir.)
+(Eger terminalde bizde select secim yapma istenirse, 1 i seciyoruz ve sonra timezone.now diyoruz)
+
+(Tabledan row sildigimizde de ayni komutlari yaziyoruz. silmis olmamiza ragmen dosyalar kisminda remove adinda yeni bir dosya olusturur.)
+
+
+	////////// Admin site:
+urls dosyasinda otomatik olarak admin path i gelir.
+Biz browser a 8000/admin/  yazdigimizda bize diekt olarak arayüz acilir.
+Ama bunnu kullanabilmek icin önce terminal de createsuperuser yazilir
+
+python manage.py createsuperuser
+(Önemli Not: Bu komut calismasi icin manage.py ile ayni seviyede olmamiz gerekir.)
+
+Admin interface de islem degisiklik yapabilmek icin store icindeki admin.py kullanilir. Su komutlar yazilir:
+
+from .models import Category
+
+admin.site.register(Category)
+
+
+(Ikinci bir model eklemek icin, models da ekleme yapilir. admin.py da da yine ekleme yapilir. daha sonra migrate komutlari calistirilir. )
+
+
+#### Olusturdugumuz tüm veriler db de olusmaktadir. Bu nedenle görmek istersek sqlite da görebilirz. Sqlite da projemizin genel klasörü secilir ve daha sonra sqlite kismi secilir.
+Database e giden veriler admin interface kullanarak girdigimiz veriler vasitasi ile olur
+
+
+
+linkler : 
+sql için : https://www.yazilimkodlama.com/sql-server-2/sql-komutlari/
+
+django Sadık Turan : https://www.youtube.com/watch?v=hbx39adciac&t=2s
+arin yazılım : https://www.youtube.com/playlist?list=PL-Hkw4CrSVq_JXtwz77IxExR3QEbd_b4K
+
+
+
+
+
+
+
+
+powershell icin komut 
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted
+
+
+
+
+
+
+

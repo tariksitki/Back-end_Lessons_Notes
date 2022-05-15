@@ -1,0 +1,95 @@
+
+
+Models
+A model is the single, definitive source of information about your data. It contains the essential fields and behaviors of the data you’re storing. Generally, each model maps to a single database table. We can use the Django admin panel to create, retrieve, update or delete model fields and various similar operations.
+
+
+
+Each model is a Python class that subclasses django.db.models.Model.
+Each attribute of the model represents a database field.
+With all of this, Django gives you an automatically-generated database-access API
+
+
+Let's create our first model. Open the fscohort/models.py file and write this code.
+
+from django.db import models
+
+class Student(models.Model):
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    number = models.IntegerField()   
+
+first_name, last_name and number are fields of the model. Each field is specified as a class attribute, and each attribute maps to a database column.
+CharField and IntegerField are field types which tells the database what kind of data to store. There are many types of fields. You can view the full list here.
+max_length is field argument which is required for Charfield. There’s also a set of common arguments available to all field types. All are optional. You can view the full list of field option here.
+
+
+
+
+
+The above Student model would create a database table like this :
+
+
+CREATE TABLE Student (
+
+     id INT AUTO_INCREMENT PRIMARY KEY,
+     first_name  varchar(30) NOT NULL,
+     last_name  varchar(30) NOT NULL,
+     number  INT NOT NULL,
+);
+
+
+
+
+An id field is added automatically to the model by Django.
+Run this command;
+
+
+python manage.py makemigrations fscohort
+
+
+
+
+By running makemigrations, you’re telling Django that you’ve made some changes to your models (in this case, you’ve made new ones) and that you’d like the changes to be stored as a migration.
+
+
+
+Now run this command;
+
+python manage.py migrate 
+
+
+
+The migrate command takes all the migrations that haven’t been applied and run them against your database - essentially, synchronizing the changes you made to your models with the schema in the database.
+
+
+
+Now, we need to tell the admin that the Student model has an admin interface. To do this, open the fscohort/admin.py file and edit it like this.
+
+
+
+from django.contrib import admin
+
+from .models import Student
+
+admin.site.register(Student)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

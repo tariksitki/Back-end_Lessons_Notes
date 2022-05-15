@@ -1,0 +1,274 @@
+-- Django bir python a aait Framework dur
+
+-- MVT or MTV (Model view template mimarisi üzerine kuruludur)
+
+-- Feature lar arasinda:
+Admin interface var(Burada crud islemleri yapilabilir)
+Form Handling
+Templating
+
+
+-- trick soru: What happens when url.py file is edited while the development server is still running?
+The development server automatically restarts
+
+
+-- Migrations nedir:
+1: Migrations klasöründe kaydedilen dosyalardir
+2: makemigrations komutunu calistirdigimizda olusturulurlar
+3: Django nun, modellerindeki degisiklikleri depoladigi dosyalardir.
+
+
+-- tüm user larin kayitlarini alma:
+User.objects.all()
+
+
+__init__.py nin görevi:
+Bunun icinde bulundugu klasörü, python in bir package olarak algilamasini saglar.
+
+
+
+In Django; each model map to a single database table
+
+Uygulama zaten database e baglidir. Bu nedenle her bir model bir table dir.
+
+
+
+-- Django ile web application üretilir.
+-- Database ile frontend arasinda baglanti saglar
+
+
+
+-- Yani python dili ile yazilmis mvt mimarisine sahip bir frameworkdur.
+
+
+
+-- Framework genel büyük bir cercevedir. yani puzzle dir. Library ise bu puzzle a ait bir parcadir. Mesela Django büyük bir framework, bunun icinde login icin bir library register icin bir library bulunur. her bir islemimiz icin yazilmis hazir bir library vardir. bir ihtiyac oldukca onlari alir ve kullaniriz.
+
+
+
+-- 2003 yilinda create edildi 
+-- 2005 de release edildi
+
+
+-- Django ismi bir müzisyen den gelir. Django Reinhard
+
+-- 2 parmaginin islevi yok. buna ragmen kendini cok gelistirmis ve duayen olmus.
+
+
+
+-- Neden Django:
+-- 1 dk icinde proje ayaga kalkabilir.
+-- Müthis bir documentation
+-- Genis bir community
+-- Cok hizli güncellemelr geliyor ve kendilerini copk hizli gelistiriyorlar
+-- cok fazla paketi var. böylece cok az kod yaziyoruz.
+-- Battery included full loaded  (hazir güvenlik paketleri login paketleri var. direkt alip kullanabiliyoruz)
+-- db ye baglamak cok basit. 1 dk icinde mySql den postgreye alabiliriz.
+-- Spotify facebook netflix kullanir.
+
+
+
+
+
+
+-- env neden kurulur?
+-- Pc miz büyük bir kutu diyelim. Sadece o an calistigimiz projeye ait bir izole edilmis alan olustururuz. Bu kücük kutuyu baska bir projeye götürdügümüzde de bu paket hemen calismaya baslar.
+-- isim env olmak zorunda degil. 
+
+
+
+-- asgi.py: 
+Asynchronous Server Gateway Interface
+ASGI veya Asenkron Sunucu Ağ Geçidi Arayüzü, Channels ve Daphne'nin üzerine inşa edildiği, Channels uygulamalarını belirli bir uygulama sunucusundan çözmek ve uygulama ve ara yazılım kodu yazmak için ortak bir yol sağlamak için tasarlanmış bir özelliktir.
+
+
+
+-- wsgi ise asnyc olmayan
+Web Server Gateway Interface
+
+
+
+
+--- Project nedir app nedir?
+
+-- bir app;  projenin belirli bir kismidi. mesela login app. bu app i alip baska bir proje de kullanabilirz. bir proje de birden cok app vardir.
+
+
+
+
+
+
+
+--------------  MVT  yapisi:
+
+
+Kullanici tarafinda yani browser tarafinda Html Css Js vardir. Burasi Template kismi.
+
+
+Kullanici buradan url yazark bir reauest ypar.
+Bu request url.py a gider. url.py istegi inceler ve url e göre view da bir func i tetikler. 
+Iste url.py ve view in birlesimi mvt de view kismini olusturur.
+
+
+View da calisan func Model i tetikler. Ve o da Db ile iletisimi saglar
+Iste db ile Models in birlesimi  de Mvt de Models kismini olusturur.
+
+
+
+-- Middleware polis gibidir.istek yapan kisinin login ve auth islemlerini yapar herkese yetkisine göre sayfa göszerir.
+
+
+
+
+
+--- Model nedir?
+-- database ile veri alisverisi yapar
+
+
+
+
+
+
+Model: Responsible for Database
+
+Template: Responsible for Presentation layer and user Interface
+
+View: Responsible for the Business Logic
+
+
+
+
+
+-- A model is the single, definitive source of information about your data.
+
+-- Her bir model bir python class i dir.
+ ve bu class  django.db.models.Model  in subclass idir.
+
+
+
+
+
+
+
+-- ORM:  Object relational Mapping
+
+-- Model dosyasinda tanimlanan her bir class;  database de bir tablodur.
+
+-- Ve bu class a ait her bir property(field) bu tablo da bir sütundur.
+
+-- ORM database ile iletisim kurmanin düzenli bir yoludur.
+-- Burada her bir object,  SQL olmadan particular model üzerine create edilir.
+
+-- Bu yaklasimin avantajlari: basit ve temiz cözüm, kisa ve daha okunabilir queryset leri icin 
+
+-- Queryset nedir??
+-- Particular modelin objectlerinin listesidir.
+Bu liste database de bizim girdigimiz kriterlere göre olusur.
+
+
+
+-- Django ORM bize, sql komutlari yerine django query leri ile search yapma imkani verir.
+
+
+
+
+
+-- table olustururken veri tiplerine Field Type denir.
+
+-- Max length gibi hususlara ise Field Options denir.
+
+
+
+-- Bir restoran da mutfak database dir. orm e biz sunu getir bunu getir diye komut veririrz o bize mutfak dan getirir.
+
+
+
+--- onetoone :  tc kimlik no
+--- onetomany:  doktor
+--- manytomany : kardesler
+
+
+
+
+
+--------------
+
+		Model olusturma:
+
+önce app klasör icindeki models de model olusturulur ve daha sonra;
+
+python manage.py makemigrations :  
+
+Bu komut, django ya bizim modellerimizde bazi degisiklikler yaptigimizi söyler.
+
+
+
+python manage.py migrate  :  
+
+Bu komut ise; bizim modellerimiz icin yaptigimiz degisiklikleri database deki semalar ile senkronize eder.
+
+
+-- Normal de her tabloda id olur. eger biz id eklemezsek django kendisi ekler.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

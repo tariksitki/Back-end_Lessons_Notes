@@ -1,0 +1,145 @@
+Servers üzerine gelip sag tiklama ve register
+
+-New DB:  Database üzerine gelip sag tikla ve create db
+
+File kismindan preference, tema degisikligi
+
+Object kisminda yine new db olusturma
+
+Tools kisminda, query tool ile sorgu yazilabilir. ama db secilmis olmasi lazim
+
+Pg admin bize, interface ile olusturdugumuz yeni db nin kod kismini da kod olarak verir.
+Create db dedigimizde en sagda kalan sql kisminda görülür.
+
+
+Yeni bir tane db olusturduk ve icine girdik.
+
+1: Casts:  db mizdeki veri tiplerinin dönüsümü (cast üzerine sag tikla create => definition ve sonra ilk önce degisecek veriyi gir sonra ne ile degisecegini gir)
+
+2: Catalogs: information sema icerir. info sema da bizim tablolarimiz ile ilgili olan kurallari icerir.
+
+3: Event Trigger: mesela bir veride degisiklik yapacagiz ve bunun tüm tablolarda degismesini istiyoruz. Birbirlerini tetiklemesini istiyoruz. tek tek update ile ugrasmiyoruz
+Eger db bazinda degisiklik yapacak isek event trigger, sadece tablo bazinda yapacaksak normal trigger kullanilir.
+
+4: Extensions: Birden cok sql nesnesini db den db ye aktarmak icin yada veri tabanindan tamamen kaldirmak icin, bu nesneleri bir paket haline getiriyor. mesela yeni bir versiyona gectik diyleim. eski verilerimizi bir paket haline getirip alabiliyoruz. 
+
+
+5: Foreign Data Wrapper: mesela projemizin db si mySql ve bunu postgre ye tasimak istiyoruz. Bu durumda diger db ler ile iliskileri sagliyor. 
+
+
+6: Publications ve Subscriptions yayinlama ile ilgili
+
+7: Schemas: Bizim isimiz daha cok burada ve bunun altinda da sunlar var:
+
+
+Aggregates:  count, min, max gibi aggregate func lar bunun icinde
+
+ 
+Domains:  db icinde kendimize ait özel bir alan olusturabilirz ve bu alanda testler vs yapabilirz.
+
+
+FTS (Full text search):  Db icinde anahtar kelime arama text arama islmeleri
+
+
+Foreign Tables: farkli veri kaynaklari ile iletisim saglanabiliyor ve bu iletisim sonunda farkli bir tablo da tutma ihtiyaci olursa burada tutulur.
+
+ 
+Functions ve Procedures:  Ikisi de func lari tutar ama procedure ün farki;  bir kez calisip bitenleri tutar. Functions ise return eder ve birden cok yerde kullanilabilir. 
+Yani birden cok yerde kullanilacak func lari bu iki yerde tutuyoruz ve her yerde tekrar yazmiyoruz.
+
+
+
+--Materialized Views:  Eger select sonunda dönen verileri bir tablo gibi göstermek icin kullanilir.
+
+
+
+-- Operatörler icinde > veya < givi operatörler var. ve kendimize ait operatörler tanimlayabiliyoruz.
+
+-- Sequences: mesela bir sütundaki degerin 1 den baslayip biner biner artmasini istiyoruz. onun icin bu kullanilir.
+
+
+
+-- Buradaki trigger func lar, table lar capinda kücük boyutlu islemler icin
+
+
+--- types: kendi veri tipimizi olusturabiliriz
+
+
+
+
+
+--New table:  tables üzerine gelip sag tik ile create denilir. 
+-- veri tipi char var ile text arasindaki fark,  text de maximum length ayarlanamaz.
+
+
+
+-- Foreign key tanimlama:
+-- Tablomuzun ismi olan doctors un yada patients in üzerine gelip sag tikliyoruz. En altta properties ile tanimlama yapiyoruz.
+
+-- tablolara veri ekleme:
+-- tablo ismi üzerine sag tikla.  view-edit =>  all rows
+
+
+---- Önemli Not: Eger verileri girmeden önce foreign keyleri tanimlarsak iki tablo da da;  bu durumda veriler girerken problem ile karsilasiyoruz ve foreign key lerden birini iptal etmek zorunda kaliyoruz. Bu nedenle foreign keyleri tanimlamadna önce veri girilmesi daha mantikli
+
+
+--- Bu islemlerden sonra,  sol üstte tools a geliyoruz ve query tools diyoruz. Burada query lerimizi yazabilir ve olusturdugumuz tablolarda arama yapabiliriz.
+
+
+
+
+-- select * from patients, doctors  (Buna cross join denir.)
+
+
+
+--- eger olusturdugumuz db e ait ERD tablosuna yani detayli görünüm tablosuna ihtiyac olursa, db mizin ismi üzerine gelip sag tikliyoruz. Generate ERD diyoruz. Müsteriler böyle birseyi sartname de isteyebilir.
+Burada yaptigimiz islem elimizde veri tabani oldugunda gecerli olan yöntem.
+
+
+--- Eger elimizde veri tabani yoksa, bu durumda islemi tersten yapariz. 
+-- sol üstte tools kismina geliriz. ERD deriz ve burada tablolarimizi olusturmaya baslariz verileri gireriz. Giris islemleri bittiginde,  yukarida bulunan 1M(onetomany) kismindan yada MM(manytomany) kismindan baglantilarimizi yapariz.
+-- burada tablo ekleme + isareti ile olur.
+
+- bu sekilde tablolari ekledikten sonra, baglanti yapmak istedigimizde 1M ve MM tuslari disable oluyor. bunu aktive etmek icin tablolarin sol üstünde bulunan göz simgesine tiklanir.
+
+
+--Burada son yaptigimiz islemde elimizde bir db olmadigi icin codefirst yaptik. ani önce kod yazip erd olusturduk. ama ilk islemde elimizde db oldugunda, dbfirst yaptik.
+
+
+
+-- Olusturdugumuz son erd den sonra üstte bulunan tuslardan, generate sql tusuna basarsak bunun sql kodlarini olusturur.
+-- Bu kodlari alarak, query tools a yapistirdigimizda, kodlar ile de tablolari olusturabiliriz.
+
+
+
+
+--- son yaptigimiz iki islemi su sekilde özetleyebiliriz.
+_ Birincisinde; database in erd diagramini cikardik
+_  ikinciisnde; erd diagramindan database ürettik
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
