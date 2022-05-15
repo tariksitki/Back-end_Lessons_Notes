@@ -1,4 +1,5 @@
 Kontroller ve Komutlar : 
+
 1.	python --version   >> python sürümünü kurulumunu kontrol için 
 
 
