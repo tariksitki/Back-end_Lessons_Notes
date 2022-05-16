@@ -1,0 +1,653 @@
+
+## Her bir model python da bir class dir,  db de ise bir tablodur.
+## Class a ait her bir attribute db de column dur.
+## max length gibi seyler ise field argument *********
+
+
+
+
+from django.db import models
+
+class Student(models.Model):
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    number = models.IntegerField() 
+
+
+CREATE TABLE Student (
+
+     id INT AUTO_INCREMENT PRIMARY KEY,
+     first_name  varchar(30) NOT NULL,
+     last_name  varchar(30) NOT NULL,
+     number  INT NOT NULL,
+);
+
+
+## yukaridaki iki kod ayni isi yapar.
+
+
+An id field is added automatically to the model by Django.
+
+
+
+
+python manage.py makemigrations fscohort
+By running makemigrations, you’re telling Django that you’ve made some changes to your models (in this case, you’ve made new ones) and that you’d like the changes to be stored as a migration.
+
+
+
+
+
+
+python manage.py migrate 
+
+Geçiş komutu, uygulanmamış tüm geçişleri alır ve bunları veritabanınızda çalıştırır - temel olarak, modellerinizde yaptığınız değişiklikleri veritabanındaki şema ile senkronize eder.
+
+
+
+
+
+Now, we need to tell the admin that the Student model has an admin interface. To do this, open the fscohort/admin.py file and edit it like this.
+
+
+from django.contrib import admin
+
+from .models import Student
+
+admin.site.register(Student)
+
+
+
+
+
+Django, 'kullanıma hazır' durumunda, Python dağıtımına dahil olan hafif bir ilişkisel veritabanı olan SQLite ile iletişim kurmak üzere ayarlanmıştır. Bu nedenle, varsayılan olarak, Django projeniz için otomatik olarak bir SQLite veritabanı oluşturur.
+
+
+
+
+
+In addition to SQLite, Django officially supports five databases:
+
+PostgreSQL
+MySQL
+Oracle
+MariaDB (Django 3 only)
+
+
+
+
+The Django configuration to connect to a database is done inside the settting.py file of a Django project in the DATABASES variable.
+
+
+
+
+
+
+
+
+
+Django ORM
+One of the most powerful features of Django is its Object-Relational Mapper (ORM), which provides an elegant and powerful way to interact with the database like you would with SQL. You don't need to write SQL queries for the database operations. ORM, as from the name, maps objects attributes to respective table fields. It can also retrieve data in that manner.
+
+
+
+
+Making queries
+Once you’ve created your data models, Django automatically gives you a database-abstraction API (ORM) that lets you create, retrieve, update and delete objects. 
+
+
+
+
+
+Django Shell
+The Django shell is a Python shell that gives you access to the database API included with Django. The database API is a set of Python methods that allow you to access the project database from the data model.
+
+
+
+
+
+
+
+ python manage.py shell
+
+
+Now, you're in the Django interactive console.
+
+
+
+
+
+
+
+Creating objects:
+First, we need to import our Student model
+
+
+
+>>> from fscohort.models import Student
+
+
+Now, create our first object.
+
+>>> s1 = Student(first_name="Henry", last_name="Forester", number=123) 
+
+
+>>> s1.save()
+
+
+
+
+Create more objects
+
+>>> s2 = Student(first_name="Edward", last_name="Benedict", number=321) 
+>>> s2.save()
+>>> s3= Student(first_name="Mccarthy", last_name="Silva", number=456)
+>>> s3.save()
+>>> s4 = Student(first_name="Mark", last_name="Madison", number=654) 
+>>> s4.save()
+
+
+
+
+
+
+To create and save an object in a single step, we can use the create() method.
+
+
+>>> s5 = Student.objects.create(first_name="Adam", last_name="Flyer", number=789) 
+
+
+
+
+
+
+>>> all_students = Student.objects.all()
+>>> print(all_students) 
+<QuerySet [<Student: Student object (2)>, <Student: Student object (3)>, <Student: Student object (4)>, <Student: Student object (5)>, <Student: Student object (6)>]>
+
+
+
+
+
+When you print out all_students it returns a QuerySet (collection of objects from your database) of all the objects in the database. If you want to see your queryset more human readable format, you can modify your model like this;
+
+
+
+
+class Student(models.Model):
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    number = models.IntegerField()
+
+    def __str__(self):
+        return "{} {}".format(self.first_name, self.last_name) # Now it returns firt_name + last_name instead of Student object
+
+
+
+
+<QuerySet [<Student: Henry Forester>, <Student: Edward Benedict>, <Student: Mccarthy Silva>, <Student: Mark Madison>, <Student: Adam Flyer>]>
+
+
+
+
+
+Retrieving a single object
+If you know there is only one object that matches your query, you can use the get() method.
+
+
+>>> g1 = Student.objects.get(first_name="Henry") 
+>>> print(g1) 
+Henry Forester
+
+
+
+
+
+
+
+
+Retrieving specific objects with filters
+The QuerySet returned by all() describes all objects in the database table. Usually, though, you’ll need to select only a subset of the complete set of objects.
+
+filter(): Returns a new QuerySet containing objects that match the given lookup parameters.
+
+>>> f1 = Student.objects.filter(first_name__startswith="m")      
+>>> print(f1) 
+<QuerySet [<Student: Mccarthy Silva>, <Student: Mark Madison>]>
+
+
+
+
+
+
+ Note: There are two underscore characters (_) between first_name and startswith. Django's ORM uses this rule to separate field names ("first_name") and operations or filters ("startswith").
+
+
+
+
+
+
+
+exclude(): Returns a new QuerySet containing objects that do not match the given lookup parameters.
+
+>>> e1 = Student.objects.exclude(first_name__startswith="m") 
+>>> print(e1) 
+<QuerySet [<Student: Henry Forester>, <Student: Edward Benedict>, <Student: Adam Flyer>]>
+
+
+
+
+
+
+
+Ordering and Limiting QuerySets
+
+
+>>> Student.objects.order_by("first_name")[:2]  
+<QuerySet [<Student: Adam Flyer>, <Student: Edward Benedict>]>
+
+
+
+
+⚠️Note:
+Negative indexing (Student.objects.all()[-1]) is not supported.
+
+
+
+
+
+
+
+A model is used in Django to represent a table in a database. (True)
+
+
+
+
+
+Relationships in Django models
+Django models work with relational database systems (RDBMS) by default to accommodate relationships between them. Database relationships, in their most basic form, are used to connect records based on a key or id, resulting in better data management, query accuracy, and less duplicate data, among other benefits. (Veritabanı ilişkileri, en temel biçimleriyle, diğer faydaların yanı sıra daha iyi veri yönetimi, sorgu doğruluğu ve daha az yinelenen veri ile sonuçlanan, bir anahtara veya kimliğe dayalı kayıtları bağlamak için kullanılır.)
+
+
+
+
+
+
+
+One-To-One Relationship
+One-to-one relationships occur when there is exactly one record in the first table that corresponds to one record in the related table.
+
+
+
+
+
+
+
+class Creator(models.Model):
+    first_name = models.CharField(max_length=25)
+    last_name = models.CharField(max_length=25)
+
+    def __str__(self):
+        return "{} {}".format(self.first_name, self.last_name)
+
+
+class Languages(models.Model):
+    creator = models.OneToOneField(Creator, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
+
+Line 10. We define the relationship with models.OneToOneField
+
+on_delete (used in one-to-one and one-to-many) argument lets you specify what happens to the other party when one party is removed. In our model with models.CASCADE if Creator instance is deleted, Language records referencing the Creator instance is also deleted.
+
+
+
+and run python manage.py makemigrations and python manage.py migrate commands.
+
+
+
+
+
+
+Making Queries
+Open your django interactive console ;
+
+
+
+
+
+>>> from dj_relationships.models import Creator, Languages
+>>> p = Creator.objects.create(first_name="Guido van", last_name="Rossum")
+>>> j = Creator.objects.create(first_name="James", last_name="Gosling")
+>>> js = Creator.objects.create(first_name="Brenden", last_name="Eich")
+>>> pyt = Languages.objects.create(creator=p, name="python")
+(Buradaki kücük harf ile yazilan creatorlar sadece baglanti yapiyor. relation yapiyor. output da etkisi yok)
+
+>>> java = Languages.objects.create(creator=j, name="java")
+>>> javascript = Languages.objects.create(creator=js, name="java script")
+>>> p
+<Creator: Guido van Rossum>
+>>> j
+<Creator: James Gosling>
+>>> js
+<Creator: Brenden Eich>
+>>> python
+<Languages: python>
+>>> java
+<Languages: java>
+>>> javascript
+<Languages: java script>
+
+
+
+
+
+
+
+
+
+Now, let's make some query;
+
+
+
+# Access the Languages object and its fields through Creator object 
+# (use lowercase model name Languages --> languages)
+>>> p.languages.name
+'python'
+
+# Access the Creator object and its fields through the Languages object
+>>> pyt.creator.first_name
+'Guido van'
+
+# Get Creator objects through Languages with name startswith "J"
+>>> Creator.objects.filter(languages__name__startswith="J")
+<QuerySet [<Creator: James Gosling>, <Creator: Brenden Eich>]>
+
+# Get Languages objects through Creator with first_name startswith "J"
+>>> Languages.objects.filter(creator__first_name__startswith="j")
+<QuerySet [<Languages: java>]>
+
+
+
+
+
+
+
+
+
+One-To-Many Relationship
+One-To-Many relationship occurs when a parent record in one table can potentially reference several child records in another table. In a one-to-many relationship, the parent is not required to have child records.
+
+
+
+
+class Creator(models.Model):
+    first_name = models.CharField(max_length=25)
+    last_name = models.CharField(max_length=25)
+
+    def __str__(self):
+        return "{} {}".format(self.first_name, self.last_name)
+
+
+class Languages(models.Model):
+    creator = models.OneToOneField(Creator, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
+class Frameworks(models.Model):
+    languages = models.ForeignKey(Languages, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
+
+
+Line 27. We define the relationship with models.ForeignKey
+
+and run python manage.py makemigrations and python manage.py migrate commands.
+
+Making Queries
+Open your django interactive console ;
+
+
+
+
+
+
+>>> from dj_relationships.models import Creator, Languages, Frameworks
+# get Languages objects from db
+>>> pyt = Languages.objects.get(name="python")
+>>> java = Languages.objects.get(name="java")
+>>> javascript=Languages.objects.get(name="java script")
+
+# create Frameworks objects
+>>> django=Frameworks.objects.create(languages=pyt, name="django")   
+>>> flask=Frameworks.objects.create(languages=pyt, name="flask")  
+>>> spring=Frameworks.objects.create(languages=java, name="spring")
+>>> struts=Frameworks.objects.create(languages=java, name="struts") 
+
+>>> django
+<Frameworks: django>
+>>> flask
+<Frameworks: flask>
+>>> spring
+<Frameworks: spring>
+>>> struts
+<Frameworks: struts>
+
+
+
+
+
+
+
+Now, let's make some query;
+
+
+
+
+
+# Access the Languages object and its fields through Frameworks object
+>>> django.languages.name
+'python'
+>>> django.languages.creator   
+<Creator: Guido van Rossum>
+
+# Access the Frameworks objects through Languages object
+# (use lowercase model name and underscore set Frameworks--> frameworks_set)
+>>> pyt.frameworks_set.all() 
+<QuerySet [<Frameworks: django>, <Frameworks: flask>]>
+>>> pyt.frameworks_set.filter(name__startswith="f")
+<QuerySet [<Frameworks: flask>]>
+
+# Get Frameworks objects through Languages with name "java"
+>>> Frameworks.objects.filter(languages__name="java") 
+<QuerySet [<Frameworks: spring>, <Frameworks: struts>]>
+
+# Get Languages objects through Frameworks with name "flask"
+>>> Languages.objects.filter(frameworks__name="flask")     
+<QuerySet [<Languages: python>]>
+
+
+
+
+
+
+
+
+
+
+Many-To-Many Relationship
+
+
+
+
+Many-To-Many relationship occurs when a parent record in one table contains several child rows in another table and vice versa.
+
+
+
+
+class Creator(models.Model):
+    first_name = models.CharField(max_length=25)
+    last_name = models.CharField(max_length=25)
+
+    def __str__(self):
+        return "{} {}".format(self.first_name, self.last_name)
+
+
+class Languages(models.Model):
+    creator = models.OneToOneField(Creator, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
+class Frameworks(models.Model):
+    languages = models.ForeignKey(
+        Languages, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
+class Programmer(models.Model):
+    framework = models.ManyToManyField(Frameworks, db_table="dd")
+    first_name = models.CharField(max_length=25)
+    last_name = models.CharField(max_length=25)
+
+    def __str__(self):
+        return "{} {}".format(self.first_name, self.last_name)
+
+
+
+and run python manage.py makemigrations and python manage.py migrate commands.
+
+
+
+
+
+Making Queries
+Open your django interactive console ;
+
+>>> from dj_relationships.models import Frameworks, Programmer
+# get Frameworks objects from db
+>>> django=Frameworks.objects.get(name="django") 
+>>> flask=Frameworks.objects.get(name="flask")   
+>>> struts=Frameworks.objects.get(name="struts")         
+>>> spring=Frameworks.objects.get(name="spring") 
+
+# create Programmer objects
+>>> henry=Programmer.objects.create(first_name="henry", last_name="forester") 
+>>> aaron=Programmer.objects.create(first_name="aaron", last_name="a")
+
+# create relationships between Frameworks objects and Programmer objects
+>>> henry.framework.add(struts, django) 
+>>> aaron.framework.add(django,flask)
+
+
+
+
+
+Now, let's make some query;
+
+
+
+
+
+# Access the Frameworks objects through Programmer object
+>>> henry.framework.all() 
+<QuerySet [<Frameworks: django>, <Frameworks: struts>]>
+>>> henry.framework.filter(name__startswith="d")
+<QuerySet [<Frameworks: django>]>
+
+# Access the Programmer objects through Frameworks object
+# (use lowercase model name and underscore set Programmer --> programmer_set)
+>>> django.programmer_set.all()
+<QuerySet [<Programmer: henry forester>, <Programmer: aaron a>]>
+>>> django.programmer_set.filter(first_name__startswith="a") 
+<QuerySet [<Programmer: aaron a>]>
+
+# Get Frameworks objects through Programmer with name "henry"
+>>> Frameworks.objects.filter(programmer__first_name="henry") 
+<QuerySet [<Frameworks: django>, <Frameworks: struts>]>
+
+# Get Programmer objects through Frameworks with name startswith "d"
+>>> Programmer.objects.filter(framework__name__startswith="d")  
+<QuerySet [<Programmer: aaron a>, <Programmer: henry forester>]>
+
+
+
+
+
+
+
+
+
+
+class Library(models.Model): book_name = model.CharField(max_length=100) author = models.CharField(max_length=100) category= models.Charfield(max_lenth = 50, blank=True)
+""blank = True" means , it's not required."
+
+According to Library class, how can you create an object?
+
+
+b1 = Library(book_name="Clarusway", author="Eric A.") b1.save()
+b1 = Library.objects.create(book_name="Clarusway", author="Eric A.", category="IT")
+
+
+
+
+
+
+How can you find books that don't start with the letter "a"?
+b1 = Library.objects.exclude(book_name__startswith="a")
+
+
+
+
+
+
+
+Which command should you use to see your "Library" models on the admin site?
+
+admin.site.register(Library)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
