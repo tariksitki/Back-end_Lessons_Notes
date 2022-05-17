@@ -1,0 +1,26 @@
+Virtual env kurmamizin temel nedeni package yönetimidir.
+Ama birde söyle detay bir sebep var:
+Globalde host yetkisine sahip olmadigimiz yerlerde, env kurarak paketlerimizi yönetebilir ve calisma yapabilirz.
+
+
+Models vasitasi ile biz database imizin yapisini kurariz ve db miziz ayaga kaldiririrz
+
+erd (entity relationship diagram)
+
+
+
+CharField  (Bu field type dir)
+
+max_length=30 (field option)
+
+
+ORM bir translater gibi vazife yapar. Arka planda hangi db calisirsa calissin, bizim yazdigimiz python kodlari, o db in diline translate edilir.
+
+
+
+	*******  Shell:
+
+Normalde db sorgularimizi projemizin beyni olan view da yazariz. ancak olusturdugumuz tablolarin db de calisip calismadigini kontro letmek icin hizli sorgulari shell de de yazabilriiz.
+
+python manage.py shell
+

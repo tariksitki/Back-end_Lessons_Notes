@@ -109,6 +109,11 @@ urlpatterns = [
 
 25.	projeyi tekrar çalıştıralım :
 py manage.py runserver 
+
+
+26.   requirements.txt  (Bizim projemizi baska birisi kullanmak istediginde bunun icindeki package lari  yükler. React daki package.json ile ayni maksat)
+
+	pip freeze > requirements.txt
 				
 				Happy End :)
 
@@ -124,6 +129,10 @@ Template :  Görünüme yönelik işlevler
 
 
 Migration :
+Önemli:  Eger yazdigimiz kodlar db de bir degisiklik yapacak ise o zaman bu komutlar calistirilir. Ama sadece frontend de degisiklik yapacaksa mesela model deki meta verisi yazma gibi;  bu durumda gerek yok
+# db_table = "Student_Table"
+# Bu tablo db de tablo adi degistirir.
+
 python manage.py makemigrations
 (Bu kod bazen calismadiginda sonuna store yaziyor.)
 
@@ -136,18 +145,19 @@ python manage.py migrate
 
 
 	////////// Admin site:
+
 urls dosyasinda otomatik olarak admin path i gelir.
-Biz browser a 8000/admin/  yazdigimizda bize diekt olarak arayüz acilir.
-Ama bunnu kullanabilmek icin önce terminal de createsuperuser yazilir
+Biz browser a 8000/admin/  yazdigimizda bize direkt olarak arayüz acilir.
+Ama bunu kullanabilmek icin önce terminal de createsuperuser yazilir
 
 python manage.py createsuperuser
-(Önemli Not: Bu komut calismasi icin manage.py ile ayni seviyede olmamiz gerekir.)
+(Önemli Not: Bu komut calismasi icin manage.py ile ayni seviyede olmamiz gerekir. ve eger hic migrate komutu calistirmadi isek bu komut calismaz. Öyle bir durumda sadece python manage.py migrate komutu yeterlidir.)
 
-Admin interface de islem degisiklik yapabilmek icin store icindeki admin.py kullanilir. Su komutlar yazilir:
+Admin interface de islem degisiklik yapabilmek icin app icindeki admin.py kullanilir. Su komutlar yazilir:
 
-from .models import Category
+from .models import model_adi
 
-admin.site.register(Category)
+admin.site.register(model_adi)
 
 
 (Ikinci bir model eklemek icin, models da ekleme yapilir. admin.py da da yine ekleme yapilir. daha sonra migrate komutlari calistirilir. )
@@ -173,6 +183,39 @@ arin yazılım : https://www.youtube.com/playlist?list=PL-Hkw4CrSVq_JXtwz77IxExR
 
 powershell icin komut 
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted
+
+
+
+Note: manage.py icinde hangi komutlarin oldugunu görmek icin,  
+bu dosya ile ayni seviyed iken  ./manage.py yazilir.
+
+
+Meta:  tamamen optionaldir ve oop deki innerclass a tekabül eder.
+
+ordering parametresi neye göre siralama yapacagini belirler.
+verbose ise frontend de yani admin panel de hangi isim ile yayinlayacagini belirler.
+Documentaion da meta option larinda bulunur.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,0 +1,24 @@
+
+Virtuell environment django ya has birsey degildir. Bu python a has birsey dir ve normal python kodlari yazarken de kendimize virtuell env olusturabiliriz.
+
+Virtuell env olmadan da projemizi kendi pc mizde bulunan base env da calistirabiliriz. Ama bir projeye djangonun hangi sürümü ile baslandi ise tüm islemler o sürüm ile yapilir. Bu nedenle bir kez virtuell env olustururuz. Ve projemiz artik hep bu izole alanda calistirilir.
+
+
+mac ve linux lerde kodlara source ile baslamamiz lazim. windows da direkt env ile icine girebiliyoruz.
+
+
+setting.py icindeki base_dir klasörler arasinda gezinmemizi saglar ve herkesin pc sinde farkli path yolu base url cizer.
+
+
+-- session:  browser dan browser a degisir. bir baska browser a gectigimizde tekrar sign in olmamiz gerekir. sign in oldugumuz browser da oturum acik kaldigi sürece verileimizi tutar.
+
+
+manage.py bizim django ile iletisime gecmemizi saglayan bir command line utility
+
+
+projemizi baska bir port da calistirmak istersek runserver kodu sonuna 8080 gibi bir port girebiliriz.
+
+
+ctrl shift p (vs code da arama)
+
+
