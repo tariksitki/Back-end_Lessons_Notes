@@ -1,0 +1,212 @@
+Why Django Templating?
+In the last section, we created a view that returns single line of HtttpResponse.
+
+
+def student_num(request):
+    num_of_stdnt = Student.objects.count()
+    return HttpResponse("FS Cohort has {} students". format(num_of_stdnt))
+
+
+But what if our project is too big and we need fully designed web page for every view. Imagine putting all that code in a single view. It'll be very complex.
+
+Django is a web framework and that makes it very important to dynamically serve HTML pages, so Django has a special component, Django Templates, to do that.
+
+
+
+
+
+
+What are Django Templates:
+
+
+
+
+Temel olarak, Django'daki bir şablon, bir .html dosyasında HTML, CSS ve Javascript ile yazılır. Django çerçevesi, son kullanıcılar için dinamik olarak görünür HTML web sayfalarını etkin bir şekilde işler ve oluşturur.
+
+
+
+Django şablonlarının temel amacı, verilerin temsilini verilerin kendisinden ayırt etmektir.
+
+Bu, tarayıcı bölümünün yalnızca sunucu tarafından kendisine gönderilen HTML'yi oluşturmayı amaçladığı ve Django'nun ilgili tüm verileri şablona verdiği anlamına gelir.
+
+
+This makes the process much smoother and easier to render pages, since both the front-end and back-end have less clutter.
+
+
+
+
+
+
+
+
+
+
+
+		Django Template Language(DTL):
+
+
+
+
+Django şablonu, Django şablon dili kullanılarak işaretlenmiş bir metin belgesi veya Python dizesidir. Bazı yapılar, şablon motoru tarafından tanınır ve yorumlanır. Başlıcaları değişkenler ve etiketlerdir.
+
+
+
+
+
+A template is rendered with a context. Rendering replaces variables with their values, which are looked up in the context, and executes tags.
+
+
+
+
+The syntax of the Django template language involves three constructs.
+
+
+
+
+
+Variables: Outputs a value from the context, which is a dict-like object mapping keys to values. Variables are surrounded by {{ and }} like this. For example:
+
+Simple Variables: {{ title }}
+Object Attributes: {{ page.title }}
+Dictionary Lookups: {{ dict.key }}
+List Indexes: {{ list_items.0 }}
+
+
+
+
+
+Tags: Provide arbitrary logic in the rendering process. Tags are surrounded by {% and %} like this. There are many built-in tags. Some example functions performed by template tags are:
+
+Display Logic: {% if %}...{% endif %}
+Loop Control: {% for x in y %}...{% endfor %}
+Block Declaration: {% block content %}...{% endblock %}
+Content Import: {% include "header.html" %}
+Inheritance: {% extends "base.html" %}
+
+
+
+
+
+
+Filters: Transform the values of variables and tag arguments. You apply a filter to a variable using the | (pipe) character. There are many built-in filters, here are some examples:
+
+Change Case: {{ name|title }}
+Truncation: {{ post_content|truncatewords:50 }}
+Date Formatting: {{ order_date|date:"D M Y" }}
+List Slicing: {{ list_items|slice:":3" }}
+
+
+
+
+
+
+
+
+
+Template Folder:
+
+
+
+
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+
+
+
+
+In line 5 'APP_DIRS' is True. This means Django will look for templates folder in each app listed in INSTALLED_APPS.
+
+Let's create templates folder for our fscohort app. But we need to namespacing our templates. We add a folder named after the app to our templates folder
+
+
+
+
+
+
+
+If you don't want to put your templates folder in INSTALLED_APPS, you have to tell Django where to find your templates by adding a path to the DIRS settings.(Line 4)
+
+
+
+
+
+
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'clarusway/templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+
+
+
+
+By default, Django looks for templates folder in each app listed in INSTALLED_APPS. (True)
+
+
+
+
+
+
+
+In Django, why do we add an extra folder (i.e., namespace) our templates?
+
+Select one:
+
+To make sure there is not a conflict with a template of the same name in a different app
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
