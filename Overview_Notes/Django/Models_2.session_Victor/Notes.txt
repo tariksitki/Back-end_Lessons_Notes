@@ -18,9 +18,60 @@ ORM bir translater gibi vazife yapar. Arka planda hangi db calisirsa calissin, b
 
 
 
-	*******  Shell:
 
-Normalde db sorgularimizi projemizin beyni olan view da yazariz. ancak olusturdugumuz tablolarin db de calisip calismadigini kontro letmek icin hizli sorgulari shell de de yazabilriiz.
 
-python manage.py shell
+
+
+	--- Common Field Types:
+
+    about = models.TextField(null = True, blank=True)
+    
+	avatar = models.ImageField(null = True, blank = True, upload_to = "media/")
+
+
+-- imageField da, upload lookup i yapilir. Kullanici bir resim eklediginde, media ismi verilen uzantida resimler kayit edilir.
+
+-- ama foto üzerine admin panel de tikladigimizda acilmaz. Bunun icin setings de bazi ayarlar yapariz.
+
+-- Projenin settings.py da,  
+
+	MEDIA_URL = "/media/  yazilir
+
+-- Projenin urls.py da:
+
+	from django.conf import settings
+	from django.conf.urls.static import static
+
+	ve urlpatterns bittikten sonra en alta da su komut yazilir.
+
+	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+	-- Resim ve video gibi static file lar db de depolanmaz. db de bunlarin sadece adresleri depolanir. kendileri ise cloud gibi yerlerde depolanir.
+
+
+
+
+
+
+
+	Date:
+
+    register_date = models.DateTimeField(auto_now_add=True)
+    # datetimefield da saat de gelir. Sadece dateNow da ise tarih gelir.
+    # ve burada sadece kayit tarihleri  alinir ve o tarih sabit kalir.
+
+    update_date = models.DateTimeField(auto_now=True)
+    # sadece auto_now oldugunda ise; kullanici her degisiklik yaptiginda tarih update edilir.
+
+
+	Tüm bu degisikliklerden sonra db icin migrate komutlari calistirilir.
+
+
+
+
+
+Önemli Not:   Degisiklikler yapildiktan sonra db ye gönderirken migrate ile;  bizim karsimiza bir soru cikartir ve 1 veya 2 yi secmemizi söyler. Eger 1 i secersek tüm verilerimiz icin default bir deger kendisi atar.
+Ama 2 yi secersek models dosyasindaki class icinde sözkonusu row a default degeri kendimiz atamamiz gerekir. Eger o row da blank = True dersek bu durumda bize böyle bir soru sormaz.
+
+
 

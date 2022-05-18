@@ -1,0 +1,199 @@
+	*******  Shell:
+
+
+**** Docs daki shell komutlari linki:
+
+https://docs.djangoproject.com/en/4.0/ref/models/querysets/
+
+
+Normalde db sorgularimizi projemizin beyni olan view da yazariz. ancak olusturdugumuz tablolarin db de calisip calismadigini kontro letmek icin hizli sorgulari shell de de yazabilriiz.
+
+python manage.py shell
+
+
+Note: Shell den cikmak icin exit komutu calistirilir.
+
+
+
+		Shell Komutlar
+*** Bizim database deki tablomuza veri eklememiizin oradan veri silmemizin 2 yöntemi vardir. 
+Birincisi admin panel
+
+Ikincisi ise ORM komutlari ile shell den yönetmektir.
+
+from fscohort.models import Student
+
+
+>>> s1 = Student(first_name = "Hasan", last_name = "Kilic", number = 9999, id = 6)
+
+
+>>> s1.save() 
+
+
+
+
+
+	create method: (Save e ihtiyac yok)
+
+
+
+>>> s3 = Student.objects.create(first_name = "Ahmet", last_name = "Kale", id = 7, number = 7777)
+
+Note: Buradaki Student dan sonra gelen objets kismina manager denilir.
+
+
+
+
+
+s3 yazdigimizda, bize Student modelini tanimlarken __str__ icinde first ve last name leri yazdigimiz icin burasi gelir.
+
+
+
+	-- Diger sorgular
+
+s3.first_name  (sadece isim)
+
+
+s3.id
+
+
+s3.number
+
+
+
+s1, s3
+
+
+
+
+(Bu kod bize iterable bir query return eder icinde for calisir.)
+
+>>> all_student = Student.objects.all()
+
+>>> all_student
+
+
+
+
+	Tek eleman return etmek:
+
+
+>>> s4 = Student.objects.get(first_name = "Murat") 
+
+>>> s4
+
+(Bu kod calistiginda Bize first name i murat olan kisinin __str__ sin de  bulunan first ve last name ler return edilir. Ve bu sorgulamada s4 degiskenine Murat isimli sahis atamasi yapildigi icin, su sorgular calisir.
+
+	s4.id
+	s4.first_name
+ )
+
+
+
+
+
+
+>>> s5 = Student.objects.filter(first_name = "ali")
+
+>>> s5
+
+(Bu komut calistiginda ise;  get den farkli olarak; tek bir elemanli bir sonuc bile olsa; bize query set return edilir. bu nedenle get deki gibi direkt olatak  s5.first_name diyemeyiz. Bunun yerine query set icinde yani array vari yapida indexleme yapmamiz lazim.
+
+	>>> s5[0]
+	
+	>>> s5[0].last_name
+
+ )
+
+
+
+
+
+
+
+	
+	-- Eger filter ile birden cok kriter sorgulamak istersek
+
+>>> s6 = Student.objects.filter(first_name = "Murat") ,  Student.objects.filter(first_name = "ali")
+
+
+>>> s6
+
+
+
+
+
+
+	-- get ile birden cok kriter sorgulama:
+
+>>> s7 = Student.objects.get(last_name = "Kilic"), Student.objects.get(last_name = "Kale")  
+
+>>> s7
+
+
+
+
+
+
+	-- ayni anda filter sorgusunu ve get sorgusunu tek bir degiskene atayabiliriz.
+
+>>> s8 = Student.objects.get(id = 5), Student.objects.filter(first_name = "Ahmet")
+
+>>> s8
+
+
+
+
+Note:  Filter ve get icerisine yazdigimiz kriterlere field look ups deniyor. 
+
+
+
+
+
+
+
+
+	exclude:
+
+>>> s9 = Student.objects.exclude(id = 1)      
+
+>>> s9 
+
+
+
+
+
+	--Count()
+
+>>> total = Student.objects.count()
+
+>>> total
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

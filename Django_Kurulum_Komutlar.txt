@@ -204,6 +204,118 @@ Documentaion da meta option larinda bulunur.
 
 
 
+	--- Common Field Types:
+
+    about = models.TextField(null = True, blank=True)
+    
+	avatar = models.ImageField(null = True, blank = True, upload_to = "media/")
+
+
+-- imageField da, upload lookup i yapilir. Kullanici bir resim eklediginde, media ismi verilen uzantida resimler kayit edilir.
+
+-- ama foto üzerine admin panel de tikladigimizda acilmaz. Bunun icin setings de bazi ayarlar yapariz.
+
+-- Projenin settings.py da,  
+
+	MEDIA_URL = "/media/  yazilir
+
+-- Projenin urls.py da:
+
+	from django.conf import settings
+	from django.conf.urls.static import static
+
+	ve urlpatterns bittikten sonra en alta da su komut yazilir.
+
+	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+(Bu ayarlarin hepsi image lari browser da görüntülemek icin. Image yüklemede zaten bir problem yasamiyoruz.)
+
+	-- Resim ve video gibi static file lar db de depolanmaz. db de bunlarin sadece adresleri depolanir. kendileri ise cloud gibi yerlerde depolanir.
+
+
+--- Image secilmemis kisiler icin models dosyasinda default ile image atanabilir.
+
+
+
+
+
+
+
+
+
+	Date:
+
+    register_date = models.DateTimeField(auto_now_add=True)
+    # datetimefield da saat de gelir. Sadece dateNow da ise tarih gelir.
+    # ve burada sadece kayit tarihleri  alinir ve o tarih sabit kalir.
+
+    update_date = models.DateTimeField(auto_now=True)
+    # sadece auto_now oldugunda ise; kullanici her degisiklik yaptiginda tarih update edilir.
+
+
+	Tüm bu degisikliklerden sonra db icin migrate komutlari calistirilir.
+
+
+
+
+Önemli Not:   Degisiklikler yapildiktan sonra db ye gönderirken migrate ile;  bizim karsimiza bir soru cikartir ve 1 veya 2 yi secmemizi söyler. Eger 1 i secersek tüm verilerimiz icin default bir deger kendisi atar.
+Ama 2 yi secersek models dosyasindaki class icinde sözkonusu row a default degeri kendimiz atamamiz gerekir. Eger o row da blank = True dersek bu durumda bize böyle bir soru sormaz.
+
+
+
+
+
+
+
+
+
+
+
+
+
+	---- choices:
+
+
+    YEAR_IN_SCHOOL_CHOICES = [
+        ("FR", 'Freshman'),
+        ("SP", 'Sophomore'),
+        ("JR", 'Junior'),
+        ("SR", 'Senior'),
+        ("GRD", 'Graduate'),
+    ]
+    ## Buradaki veriler tuple formatinda. Admin panel de choices yaparken, Buradaki tuple in ikinci elemanlar karsimiza cikarilir.  Ama biz secim yaptiktan sonra, db ye ilk eleman olan kisa halleri yazilir.
+
+
+
+    year_in_school = models.CharField(max_length=3, choices=YEAR_IN_SCHOOL_CHOICES, default= "FR")
+    ## CharField da max-length girmek zorundayiz. O nedenle ve choice da db ye kaydedilecek verilerimiz en cok 3 karakter oldugundan 3 yazdik.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
