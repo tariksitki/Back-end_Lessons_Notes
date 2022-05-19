@@ -1,0 +1,20 @@
+
+	--- Db de tek bir tablo yerine, tablolari bölmenin bize sagladiklari:
+
+Daha sade ve anlasilir bir yapi
+
+Daha kücük db boyutu (Cünkü tek bir tablo oldugunda,  örnegin bir kisinin ögretmenini her kisi icin tekrar tekrar yaziyoruz. ama tablolar ayri oldugunda bu ögretmen, ögretmenler tablosunda bir kez yazilir. Ve bu kisiye ait bir veri degistirmek bu sekilde cok daha kolay. diger türlü her yerde ayri ayri degistirilir)
+
+Daha sade sorgular
+
+Daha hizli response
+
+
+
+
+
+One to one iliski en cok user profil islemlerinde kullanilir.
+Herkesin kendine ait bir profil sayfasi vardir.
+
+
+

@@ -1,0 +1,393 @@
+
+
+HTML Forms
+HTML forms are a core component of modern websites, which can be used to collect information from users for submission to a server.
+
+The form is defined in HTML as a collection of elements inside <form></form> tags, containing at least one input element of type="submit".
+
+
+
+
+While here we just have two text fields for entering the firstname and lastname, a form may have any number of other input elements and their associated labels. The field's type attribute defines what sort of widget will be displayed. The name and id of the field are used to identify the field in JavaScript/CSS/HTML.
+
+The submit input will be displayed as a button that can be pressed by the user to upload the data in all the other input elements in the form to the server.
+
+
+action: The resource/URL where to send the form-data when the form is submitted. If this is not set (or set to an empty string), then the form will be submitted back to the current page URL.
+
+
+
+
+
+method: The HTTP method used to send the data: POST or GET.
+
+GET and POST are typically used for different purposes.
+
+Any request that could be used to change the state of the system - for example, a request that makes changes in the database - should use POST. GET should be used only for requests that do not affect the state of the system.
+
+
+
+
+
+GET would also be unsuitable for a password form, because the password would appear in the URL, and thus, also in browser history and server logs, all in plain text. Neither would it be suitable for large quantities of data, or for binary data, such as an image. A Web application that uses GET requests for admin forms is a security risk: it can be easy for an attacker to mimic a form’s request to gain access to sensitive parts of the system. POST, coupled with other protections like CSRF protection offers more control over acces.
+
+
+
+
+
+Öte yandan GET, bir web arama formu gibi şeyler için uygundur, çünkü bir GET isteğini temsil eden URL'ler kolayca yer imi eklenebilir, paylaşılabilir veya yeniden gönderilebilir.
+
+
+
+
+
+The form is defined in HTML as a collection of elements inside <form></form> tags, containing at least one input element of type="button".  (False  cünkü type submit olmali)
+
+
+
+
+
+
+
+					Django Forms
+
+
+Once you need to use the form in a real-life situation things get more complicated. After the user presses the submit button, the server will receive the form data with values from the web browser and must validate the information. If the form contains invalid data, the server should display the form again, this time with user-entered data in "valid" fields and messages to describe the problem for the invalid fields. Once the server gets a request with all valid form data, it can perform an appropriate action (e.g. saving the data, returning the result of a search, etc.) and then notify the user.
+
+
+
+					Django’s role in forms
+
+Creating forms, validating data, and providing feedback is a tedious process if you code it all by hand. Django’s form functionality can simplify and automate vast portions of this work, and can also do it more securely than most programmers would be able to do in code they wrote themselves.
+
+
+
+
+Django handles three distinct parts of the work involved in forms:
+
+preparing and restructuring data to make it ready for rendering
+
+creating HTML forms for the data
+
+receiving and processing submitted forms and data from the client
+
+
+
+
+Tüm bunları gelişmiş HTML öğeleriyle manuel olarak yapan kod yazmak mümkündür, ancak Django sizin için her şeyi, özellikle de doğrulama kısmını halledebilir.
+
+
+
+
+
+
+Django Form Class
+
+
+
+
+The Form class is the heart of Django's form handling system. In much the same way that a Django model describes the logical structure of an object, its behavior, and the way its parts are represented to us, a Form class describes a form and determines how it works and appears.
+
+
+
+
+In a similar way that a model class’s fields map to database fields, a form class’s fields map to HTML form <input> elements.
+
+
+
+
+
+
+
+
+
+
+				Building a Form
+
+
+
+Form data is stored in an application's forms.py file, inside the application directory. Create and open the file clarusway/fscohort/forms.py.
+
+
+
+
+from django import forms
+
+class StudentForm(forms.Form):
+    first_name = forms.CharField(max_length=100, label="Your Name")
+    last_name = forms.CharField(max_length=100, label="Your Surname")
+    number = forms.IntegerField(required=False)
+
+
+
+Line 1. To use the Form class, we need to import the forms module from Django.
+
+Line 3. We create our StudentForm class, which inherits from Django’s forms.Form class.
+
+Lines 4 - 6 firstname, lastname and number are fields. Notice that the field declarations are almost identical to Django’s model field declarations. There are many other types of form fields. 
+
+
+
+
+
+label argument lets you specify the “human-friendly” label for this field, which will appear in the <label> when it’s rendered.
+
+
+
+
+We create our form. Now let's display it on our page. First, open your fscohort/views.py file and add this view function.
+
+
+
+
+def student_add(request):
+    form = StudentForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'fscohort/student_add.html', context)
+
+
+
+
+
+To create a new Student form, we need to call StudentForm() and pass it to the template.
+
+Add a URL configuration to your fscohort/urls.py
+
+
+
+path('add/', views.student_add, name='student_add'),
+
+
+
+
+
+
+Now, we need a template
+
+template/fscohort/student_add.html
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student List</title>
+</head>
+
+<body>
+    <form action="" method="POST">
+        {{ form.as_p}}
+        <button type="submit">Add</button>
+    </form>
+
+</body>
+
+</html>
+
+
+
+
+
+
+{{ form.as_table }} will render them as table cells wrapped in <tr> tags
+
+{{ form.as_p }} will render them wrapped in <p> tags
+
+{{ form.as_ul }} will render them wrapped in <li> tags
+
+
+
+
+
+
+
+When you create a form class, you should inherit from .......... class.
+(forms.Form)
+
+
+
+
+
+
+
+Model Forms
+
+class ModelForm
+
+
+*********  Önemli:  Bu sekilde form tanimladigimizda;  ilk form tanimlamamiz gibi tek tek her bir alan icin veri tipi girmemize gerek kalmiyor. Cünkü model kisminda Student modelimizi tanimlarken veri tiplerini belirliyoruz. 
+
+
+If you’re building a database-driven app, chances are you’ll have forms that map closely to Django models. For instance, we have a Student model, and we want to create a form that lets us add students to the database. In this case, it would be redundant to define the field types in our form, because you’ve already defined the fields in our model.
+
+
+
+
+With model forms, you create a Django model and then create a form that inherits from Django’s ModelForm class.
+
+
+
+
+
+from django import forms
+from .models import Student
+
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ["first_name", "last_name", "number"]
+
+	/// buradan asagisi eski olusturdugumuz form
+
+# class StudentForm(forms.Form):
+#     first_name = forms.CharField(max_length=100, label="Your Name")
+#     last_name = forms.CharField(
+#         max_length=100, label="Your Surname")
+#     number = forms.IntegerField(required=False)
+
+
+
+
+line 2 We import our Student model
+
+line 4 Our new StudenForm class inherits from ModelForm class.
+
+line 5 The ModelForm class has an internal Meta class which we use to pass in the metadata options the ModelForm class needs to render our form:
+
+line 6 The model on which to base our form;
+
+line 7 The model fields to render on the form.
+
+
+
+
+
+So far, we only see how to render our form. Now let's add some action to our views.py file.
+
+fscohort/views.py
+
+
+
+
+def student_add(request):
+    form = StudentForm()
+    html = 'Welcome'
+    if request.method == 'POST':
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            html = "Student succesfully added"
+
+    context = {
+        'form': form,
+        'html': html
+    }
+    return render(request, 'fscohort/student_add.html', context)
+
+
+
+
+
+
+line 2 and 3 We create blank form and html variable.
+
+line 4 Check if the form was POSTed.
+
+line 6 Check to see if the form contains valid data. is_valid() method, run validation and return a boolean designating whether the data was valid.
+
+line 7 if the method is POST and form is valid, assign a new value to html
+
+
+
+
+
+Add your new variable to your template
+
+template/fscohort/atudent_add.html
+
+
+
+
+<body>
+    <h2>{{ html }}</h2>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p}}
+        <button type="submit">Add</button>
+    </form>
+</body>
+
+
+
+
+Form etiketlerinin hemen içine eklenen {% csrf_token %}, Django'nun siteler arası sahtecilik korumasının bir parçasıdır.
+
+
+
+Veri göndermek için POST kullanan oluşturduğunuz her Django şablonuna {% csrf_token %} ekleyin. Bu, formların kötü niyetli kullanıcılar tarafından ele geçirilme şansını azaltacaktır.
+
+(Bu islemi yaptigimizda;  web sayfamizin inspect kismina gittgimizde,  input type = hidden 
+name = csrfmiddlewaretoken
+value = ruherewhrewr46463632   bu sekilde karisik olur
+)
+
+
+
+Now, add some data to your form and click the add button. You should see that our html variable is changed. And also if you look at the csrfmiddlewaretoken value it is also changed.
+
+
+
+
+Actually, we don't add anything to the database yet. We'll cover this in the next section.
+
+
+
+
+
+CSRF : Cross Site Request Forgery
+
+
+
+When you create a ModelForm we should define the field type in our form (False)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
