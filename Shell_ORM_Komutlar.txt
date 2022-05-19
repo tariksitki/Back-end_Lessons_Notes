@@ -16,6 +16,7 @@ Note: Shell den cikmak icin exit komutu calistirilir.
 
 
 		Shell Komutlar
+
 *** Bizim database deki tablomuza veri eklememiizin oradan veri silmemizin 2 yöntemi vardir. 
 Birincisi admin panel
 
@@ -168,6 +169,63 @@ Note:  Filter ve get icerisine yazdigimiz kriterlere field look ups deniyor.
 >>> total = Student.objects.count()
 
 >>> total
+
+
+
+
+
+
+
+
+		delete():
+
+Language.objects.filter(name = "Python").delete()
+
+(Bu komut tüm row u siler)
+
+
+
+
+
+		Birden cok veri silme
+
+entries= Account.objects.all()
+entries.delete()
+
+
+
+SomeModel.objects.fitler(pk__in=[1,2,3,4,5,...]).delete()
+
+
+
+
+
+
+
+instance = SomeModel.objects.get(id=1)
+
+instance.delete()
+
+
+
+
+
+record = ModelName.objects.get(id = 25)
+record.delete()
+
+The get() method fetches the record with the id as 25 and then deletes it. But if the record is not found, it raises an exception. To avoid that, we can use a try...except block as follows:
+
+
+
+
+try:
+    record = ModelName.objects.get(id = 25)
+    record.delete()
+    print("Record deleted successfully!")
+except:
+    print("Record doesn't exists")
+
+
 
 
 
