@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+            <!-- static de css link -->
+            <!-- load static digerlerinden önce yazilmak zorunda -->
+            <!-- Static file lar su sekilde calisir. proje deki settings.py icindeki installed app deki django.contrib.staticfiles   ifade bir motor gibi calisir ve app lerdeki static ismi ile baslayan klasörler icinde gezerek bu klasörler icinde bulunan verileri  bizim web sayfalarimiza eklerler.  -->
+
+            <!-- Peki neden app altindaki static aranir. Cünkü settings.py da STATIC_URL degiskeni bu sekilde tanimlanmis. Eger bu tanimlamada degisiklik yaparsak, bu durumda arama sekli de degisecektir. -->
+
+            <!-- Projemiz büyüdükce, static altinda fotolar icin ayri bir klasör css icin ayri bir klasör acilir.  -->
+
+            
+
+            {% load static %}
+    <link rel="stylesheet" href="{% static 'app/style.css' %}">
+
+
+        <!-- Asagidaki kod app icindeki degil ana dizindeki static in linki  bunun calismasi icin settings.py da kod eklemesi yaptik -->
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+  </head>
+  <body>
+
+    <img src="{% static 'app/mercedes.jpeg' %}" alt="mercedes" style="width: 200px;">
+
+    <h2>This page is Special!!</h2>
+    <br />
+
+    {{ request.user }}
+    <br />
+    <!-- Burada yazdigimiz title gibi seyler docs da built in filter references olarak gecer  -->
+
+    <h3>The Best Bootcamp {{ title | title }}</h3>
+    <h3>The Best Bootcamp {{ title | upper }}</h3>
+    <h3>The Best Bootcamp {{ title | lower }}</h3>
+    <br />
+
+    {{ dict1.django }} 
+    
+    {% for i in my_list %} 
+    
+    {% if i == 1 %} 
+    
+    <p> i = 1 </p>
+    
+    {% elif i == 2 %}
+    
+    <p>i = 2</p> 
+    
+    {% else %} 
+
+    <p>i = 3</p>
+    
+    {% endif %}
+
+    {% endfor %}
+
+
+    <!-- comments -->
+
+    {# comment one line  #}
+
+
+    {% comment multi line %}
+
+    {% endcomment %}
+
+    
+    <!-- comment yazinca snippet calisir  -->
+   
+    <!-- html comment in django comment den farki, web sayfasini incele dedigimizde, html tah lari görünür ama django tagleri görünmez . -->
+        
+
+  </body>
+</html>

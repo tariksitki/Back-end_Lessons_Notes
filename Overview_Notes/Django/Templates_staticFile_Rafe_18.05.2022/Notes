@@ -1,0 +1,53 @@
+
+View:
+
+Bir python func i yada class i dir.
+2 si de olabilir. Yani iki cesit view vardir.
+Class based farkli farkli yerlerde kullanilabilir.
+
+
+View,  bir Web request i alir ve bir Web response u return eder.  bu response u biz belirleriz. Bu basit bir http response da olabilir. Bir template de olabilir.
+
+
+Django bir fullstack framework udur. Bu nedenle hazir template ler ile bir django projesi  hazirlanabilir.
+
+View;  bizim olusturdugumuz model dan bir request information i alir ve bunu template e gönderir.
+
+Django da html sayfamiz hareketsiz bir sayfa olmaktan cikar ve db den veriler alan bunlari sayfa da interaktif bir sekilde koyan ve bunlari sürekli güncelleyen bir yapi. Bunlar view deki func lar vasitasi ile yapilir.
+
+
+
+
+Template:
+
+Template aslinda bir html sayfasidir. Ancak burada django ile iletisim ve sayfadaki dinamiklik DTL ile saglanir.
+
+
+Display Logic: {% if %}...{% endif %}
+Loop Control: {% for x in y %}...{% endfor %}
+Block Declaration: {% block content %}...{% endblock %}
+Content Import: {% include "header.html" %}
+Inheritance: {% extends "base.html" %}
+
+
+
+
+
+DTL de;  filter lar database birsey degistirmez. sadece frontend tarafinda degisiklik yapar ve logic e katarsak orada degisiklik yapar.
+
+
+{{ variable }}
+
+{{ variable | filter }}
+
+{{% tag %}}
+
+
+
+env klasörü boyutu cok büyük oldugu icin github a göndermiyoruz. Bu nedenle github dan bizim projemizi alan kisiler hangi paketlerin yüklü oldugunu görsünler diye requirements olusturulur.
+
+ve her paket yüklendiginde manuel olarak güncelleriz.
+
+
+Debug True lokalde devepoment asamasinda olur. Production da asla olmaz 
+

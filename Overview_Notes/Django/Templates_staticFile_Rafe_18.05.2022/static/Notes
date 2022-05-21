@@ -1,0 +1,24 @@
+
+
+# Note:  Eger app klasörümüzün altinda degil de ana dizin de static adinda bir klasör olusturursak bunun bulunabilmasi iicn settings.py da buna ait bir kod yazmamiz gerekir. asagidaki kod yazilir.
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+## findstatic
+
+python manage.py findstatic style.css
+
+python manage.py findstatic app/style.css
+
+Bu komut ile adres vererek nerede static klasörü ve dosyasi oldugunu bulabiliriz.
+
+
+
+Note: ana dizindeki static altina da app adinda klasör koymus olsak bu durumda django ilk olarak onu bulacak ve bizim app klasör icindeki calismayacaktir.
+
+
+
+
+STATIC_ROOT ise deployment la ilgili bir konudur.

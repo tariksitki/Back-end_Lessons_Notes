@@ -23,9 +23,16 @@ class Language(models.Model):
         # many to one (mesela bir kisinin birden cok blog u olabilir. mesel aben hem hayvanlar hakkinda hem de  it alaninda blog yazmis olabilirm. ama bir blog sadece bir kisiye ait olabilir. benim blogum baskasina ait olamaz.)
 
 
+# class Frameworks(models.Model):
+#     name = models.CharField(max_length=20)
+#     language = models.ForeignKey(Language, on_delete=models.SET_NULL, null = True)
+
+#     def __str__(self):
+#         return self.name
+
 class Frameworks(models.Model):
     name = models.CharField(max_length=20)
-    language = models.ForeignKey(Language, on_delete=models.PROTECT)
+    language = models.ForeignKey(Language, on_delete=models.SET_DEFAULT, default = 19)
 
     def __str__(self):
         return self.name
