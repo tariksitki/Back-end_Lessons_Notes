@@ -1,3 +1,26 @@
+Template Kurulumu:
+
+3 asamali bir döngü halinde devam eder.
+
+1: Ilk olarak app imiz altinda template klasörü ve onun altinda yine bir app klasörü
+Bunun icinde olusturmak istedigimiz template in html dosyasi olusturulur.
+
+
+2: view da, func yazilir. Bu func render func i return eder;
+
+	def home(request):
+		return(render(request, "app/home.html"))
+
+3: urls.py düzenlenir. (Not: project icindeki urls.py zaten düzenlendigini kabul ediyoruz)
+
+	("home/", home, name="home" )
+
+
+
+
+
+
+
 
 View:
 
@@ -50,4 +73,25 @@ ve her paket yüklendiginde manuel olarak güncelleriz.
 
 
 Debug True lokalde devepoment asamasinda olur. Production da asla olmaz 
+
+
+
+
+Display Logic: {% if %}...{% endif %}
+
+
+Loop Control: {% for x in y %}...{% endfor %}
+
+
+Block Declaration: {% block content %}...{% endblock %}
+
+
+Content Import: {% include "header.html" %}
+
+
+Inheritance: {% extends "base.html" %}
+
+
+
+pip install -r requirement.txt
 
