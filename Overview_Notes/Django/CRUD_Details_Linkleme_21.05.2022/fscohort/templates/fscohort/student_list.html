@@ -1,0 +1,43 @@
+
+{% extends "fscohort/base.html" %}
+
+{% block container %}
+
+
+<!-- <ul>
+    {% for i in students %}
+
+    {{ i.number }} - {{ i.first_name }} {{ i.last_name }}  <i class="fa-solid fa-trash"></i> <br>
+
+    {% endfor %}
+</ul> -->
+
+
+<table>
+    {% for i in students %}
+    <tr>
+        <td>
+            <!-- Numaralara tikladigimizda details sayfasina gider -->
+
+            <a href="{% url 'student_details' i.id %}"> {{ i.number }} </a>  
+        </td>
+        <td>{{ i.first_name }}</td>
+        <td>{{ i.last_name }}</td>
+
+        <td>
+            <a href="{% url 'student_update' i.id %} ">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+        </td>
+
+        <!-- Burada delete tusuna basildiginda, delete sayfasina yönlendirme yapiliyor ve silme islemleri orada gerceklestiriliyor. eger yönlendirme yapmadan direkt silmek istersek, o zaman post methodu ile delete url ine bir istek yapmamiz gerekir. -->
+
+        <td>
+            <a href="{% url 'student_delete' i.id %} ">
+                <i class="fa-solid fa-trash"></i>
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock container %}

@@ -1,0 +1,16 @@
+
+Decouple:
+
+Development ortaminda kullandigimiz sifrelerin veya önemli bilgilerin, github gibi mecralara deploy esnasinda görülmemesi icin kullanilir.
+
+Kurulum:
+
+1: pip install python-decouple
+2: .env file olusturulur
+3: settings.py daki secret_key ismi ile birlikte kopyalanir ve .env dosyasina yapistirilir.
+4: artik setting.py da acik acik sifre yazmamali, .env den cagrilarak kullanilmali
+5: Bunun icin setting.py da decouple import edilir.
+    from decouple import config
+6: settings.py da secret_key in son hali su sekilde olmali
+    SECRET_KEY = config("SECRET_KEY)  (Buradaki "" icindeki isim degisebilir. .env de ne ise o sekilde olmali)
+

@@ -1,0 +1,7 @@
+Static Fileslarin kurulumu ve Deployment ile ilgili makale:
+
+http://www.nurettinabaci.org/2020/11/05/python/django-static-files/#:~:text=staticfiles%20isimli%20bir%20klas%C3%B6r%20olu%C5%9Fturularak,i%C5%9Flem%20Heroku'da%20otomatik%20yap%C4%B1lmaktad%C4%B1r.
+
+
+
+ 
