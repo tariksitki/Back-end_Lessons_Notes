@@ -6,7 +6,7 @@ Kontroller ve Komutlar :
 2.	pip list >>   kurulu paketleri gösterir(pip python a ait paket yönetim sistemi) 
 
 
-3.	python -m pip install Django >> django yüklü değilse yükleyelim
+3.	python -m pip install Django >> django yüklü değilse yükleyelim  
 
 
 4.	pip install virtualenv  >>  VirtualEnv, projelerinizde gerekli olan paketleri sistemden bağımsız bir şekilde kurup, kullanmanızı sağlayacak sanal ortam sağlayan bir yapıdır.
