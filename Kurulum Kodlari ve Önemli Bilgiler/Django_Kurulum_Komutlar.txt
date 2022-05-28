@@ -3,7 +3,7 @@ Kontroller ve Komutlar :
 1.	python --version   >> python sürümünü kurulumunu kontrol için  
 
 
-2.	pip list >>   kurulu paketleri gösterir(pip python a ait paket yönetim sistemi) 
+2.	pip list >>   kurulu paketleri gösterir(pip python a ait paket yönetim sistemi)   
 
 
 3.	python -m pip install Django >> django yüklü değilse yükleyelim  
