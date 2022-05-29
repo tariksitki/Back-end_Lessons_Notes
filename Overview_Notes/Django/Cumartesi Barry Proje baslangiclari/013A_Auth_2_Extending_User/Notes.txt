@@ -1,0 +1,10 @@
+
+Django nun hazir auth sistemi bazen isimizi görüyor ama bazen de yetmiyor. Ilave field lar eklemenin 4 farkli yöntemi vardir:
+
+1: Proxy Table: Db ye kalici kayit yapmaz. sadece program calistigi sürece ilave field yapmayi saglar. sanal database kullanir
+
+2: OnetoOneField:  bu yöntemde aslinda bir tabloya ilave yapiyoruz. unique olmak zorundadir. 
+
+    Django nun bize sunmus oldugu user propertyleri db de bir tabloda kaydedilir. username, firstname  lastname gibi. Iste bu tablodaki özellikler bizim icin yeterli olmadiginda ve biz kullanici icin bir foto bir portfolio eklemek istedigimizde bunun icin ikinci bir tablo yapabilirz ve bu iki tabloyu birbirine onetoone ile baglariz. Böylece her bir user a ait bir foto ve bir portfolio olmak zorunda olur. 
+
+

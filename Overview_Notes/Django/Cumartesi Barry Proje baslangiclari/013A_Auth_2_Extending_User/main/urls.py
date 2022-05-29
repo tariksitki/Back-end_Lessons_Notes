@@ -24,3 +24,11 @@ urlpatterns = [
     path('', home, name='home'),
     path('users/', include('users.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+### Önemli:
+## media klasörü icindeki dosyalara ve js gibi static klasörü altindaki dosyalara erisebilmek icin buradaki ilave kodu yazmamiz gerekir. Yani bize iki klasör altindaki dosyalara erisim saglar. Bu kodlar icin yukarida importlari da var
+
+## arada 2 tane + var. bir tanesi media icin digeri static icin
+## yani buradaki url lere ilave olarak bunlari da calistir deriz
+
+## Note: css klasörünü, base.html de url static ile bagliyoruz. bu nedenle url kisminda bunun url ini yazmasak da erisim saglayabiliriz cünkü base.html tüm sayfalara tesir edebilir.

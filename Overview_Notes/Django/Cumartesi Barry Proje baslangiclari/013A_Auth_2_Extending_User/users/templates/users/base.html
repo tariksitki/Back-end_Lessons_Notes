@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
         integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous" />
 
+
+        <!-- Su an bu projede bootstrap kullanimi cdn üzerinden oluyor. ama bir gün internet üzerinden bunun kullanimi kaldirilabilir. Bu durumda bilgisayarimiza indirdigimiz bootsrap i asagidaki kod ile kullanabiliriz. -->
     {% comment %}
     <link rel="stylesheet" href=" {% static 'users/css/bootstrap.min.css' %}" />
     {% endcomment %}
@@ -22,6 +24,9 @@
 
 <body>
     {% include "users/navbar.html" %}
+
+    <!-- Burada navbar template component yapisinda kullanilmistir -->
+
     <div style="margin-top: 100px; margin-bottom: 100px" class="container">
         {% if messages %}
         {% for message in messages %}
