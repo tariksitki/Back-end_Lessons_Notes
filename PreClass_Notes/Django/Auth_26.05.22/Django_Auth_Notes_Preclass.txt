@@ -1,0 +1,583 @@
+Extending Auth User
+The Django’s built-in authentication system is good enough to meet our general requirements. But we need additional fields or If we want users to use their email to login instead of username, then we need to make customization. 
+
+If we only need additional fields, we can create a new table and match it with default User by using OneToOneField. In doing so we basically extend User table and gain additional fields by not making any change on default User.
+
+Steps to Follow:
+
+Go to terminal
+
+
+py -m venv env
+.\env\Scripts\activate
+pip install django
+django-admin --version
+django-admin startproject auth
+pip install pillow
+pip install django-crispy-forms
+
+
+rename folder as src and cd src
+
+py manage.py migrate
+py manage.py startapp users
+
+
+go to settings.py and add 'users' app to installed apps and insert below staments into settings.py
+
+import os
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+LOGIN_URL = '/users/user_login'
+​
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+
+
+create folder under src and name it as media/profile_pics
+
+go to users.models.py
+
+
+
+
+from django.db import models
+from django.contrib.auth.models import User
+​
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    portfolio = models.URLField(blank=True)
+    profile_pic = models.ImageField(upload_to='profile_pics', blank=True)
+    def __str__(self):
+        return self.user.username
+
+
+
+
+
+
+go to users.forms.py
+
+from django import forms
+from .models import UserProfile
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+​
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+​
+class UserForm(UserCreationForm):
+    class Meta():
+        model = User
+        fields = ('username', 'email')  
+​
+# class UserForm(forms.ModelForm):
+    # password = forms.CharField(widget=forms.PasswordInput())
+​
+    # class Meta():
+        # model = User
+        # fields = ('username', 'email', 'password')
+​
+class UserProfileForm(forms.ModelForm):
+    class Meta():
+        model = UserProfile
+        # fields = '__all__'
+        exclude = ('user',)
+
+
+
+
+
+
+
+
+create templates in users/templates/users
+
+base.html
+
+
+
+
+
+<!DOCTYPE html>
+{% load static %}
+​
+<html lang="en">
+​
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+​
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+    integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous" />
+​
+  {% comment %}
+  <link rel="stylesheet" href=" {% static 'users/css/bootstrap.min.css' %}" />
+  {% endcomment %}
+​
+  <link rel="stylesheet" href=" {% static 'users/css/style.css' %}  " />
+​
+  <title>Document</title>
+</head>
+​
+<body>
+  {% include "users/includes/navbar.html" %}
+  <div style="margin-top: 100px; margin-bottom: 100px" class="container">
+​
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags == "error" %}
+    <div class="alert alert-danger">{{ message }}</div>
+    {% else %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+​
+    {% block content %}
+    {% endblock content %}
+​
+  </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+  </script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+  </script>
+  <script src="{% static 'users/js/timeout.js' %}"></script>
+</body>
+​
+</html>
+
+
+
+
+
+
+
+
+
+
+{% if messages %}
+      <span></span>
+      {% for message in messages %}
+      <span></span>
+      {% if message.tags == "info" %}
+      <div class="alert alert-danger">{{ message }}</div>
+      {% else %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      {% endif %}
+      <span></span>
+      {% endfor %}
+      <span></span>
+      {% endif %}
+      <span></span>
+      {% block content %} {% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+index.html
+
+{% extends 'users/base.html' %} {% block content %}
+<h1>Home Page</h1>
+{% if request.user.is_authenticated %}
+<h2>Wellcome {{request.user}}!</h2>
+{% else %}
+<h2>Wellcome Guest!</h2>
+{% endif %} {% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+register.html
+
+{% extends 'users/base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<h2>Registration Form</h2>
+
+{% if request.user.is_authenticated %}
+
+<h3>Thanks for registering</h3>
+
+{% else %}
+
+<h3>Fill out the form please!</h3>
+<form action="" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form_user | crispy }}
+  {{ form_profile | crispy }}
+  <button type="submit" class="btn btn-danger">Register</button>
+</form>
+{% endif %}
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+{% extends 'users/base.html' %} 
+{% block content %} 
+{% load crispy_forms_tags %}
+
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <h3>Please Login</h3>
+
+    <form action="{% url 'users:user_login' %}" method="post">
+      {% csrf_token %} 
+      {{form|crispy}} 
+      <button type="submit" class="btn btn-danger">Login</button>
+    </form>
+  </div>
+</div>
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+/includes/navbar.html
+
+
+
+
+
+{% load static %}
+
+<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+  <button
+    class="navbar-toggler navbar-toggler-right"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarCollapse"
+    aria-controls="navbarCollapse"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="{% url 'index'  %}"
+    ><img src="{% static 'users/images/cw_logo.jpg' %}" alt="CLARUSWAY_LOGO" />
+
+    Clarusway FS</a
+  >
+
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'users:students' %}">Students</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="">Contact</a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav ml-auto">
+      {% if request.user.is_authenticated %} {% if request.user.is_superuser %}
+
+      <li class="nav-item active">
+        <a class="nav-link" href="/admin">Admin</a>
+      </li>
+      {% endif %}
+
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'users:logout' %}">Log Out</a>
+      </li>
+      {% else %}
+
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'users:user_login' %}">Log In</a>
+      </li>
+      {% endif %}
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'users:register' %}">Register</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+create folder under users/static/users/images
+
+copy cw.logo to this folder
+
+go to users.views.py
+
+
+
+
+
+
+
+
+
+from django.shortcuts import render, redirect, HttpResponse
+
+from .forms import UserProfileForm, UserForm, LoginForm
+from django.contrib.auth.models import User
+
+# login imports
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+
+from django.contrib import messages
+
+# Create your views here.
+
+
+def index(request):
+    return render(request, 'users/index.html')
+
+
+def register(request):
+    registered = False
+
+    form_user = UserForm(request.POST or None)
+    form_profile = UserProfileForm(request.POST or None)
+    if form_user.is_valid() and form_profile.is_valid():
+
+        user = form_user.save()
+
+        # if you don't use ModelForm, you need to get values
+        # --------------------------------------------------
+        # username = form_user.cleaned_data.get('username')
+        # password = form_user.cleaned_data.get('password')
+        # email = form_user.cleaned_data.get('email')
+
+        # if you don't use UserCreationForm, you need to save db
+        # ------------------------------------------------------
+        # user = User(username=username, email=email)
+        # if you send password to class directly like above, it will not hash pasword
+        # to save password encrypted use the command below
+        # user.set_password(password)
+
+        # user.save()
+        profile = form_profile.save(commit=False)
+        profile.user = user
+
+        if 'profile_pic' in request.FILES:
+            profile.profile_pic = request.FILES['profile_pic']
+
+        profile.save()
+        messages.success(request, "Register successful")
+        return redirect('index')
+
+    context = {
+        'form_profile': form_profile,
+        'form_user': form_user
+    }
+
+    return render(request, 'users/register.html', context)
+
+
+def user_login(request):
+
+    form = LoginForm(request.POST or None)
+    if form.is_valid():
+        username = form.cleaned_data.get("username")
+        password = form.cleaned_data.get("password")
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            if user.is_active:
+                messages.success(request, "Login successful")
+                login(request, user)
+                return redirect('index')
+            else:
+                messages.error(request, "Account is not active")
+                return render(request, 'users/user_login.html', {"form": form})
+        else:
+            messages.error(request, "Password or Username is wrong!")
+            return render(request, 'users/user_login.html', {"form": form})
+    return render(request, 'users/user_login.html', {"form": form})
+
+
+@login_required
+def user_logout(request):
+    messages.success(request, "You Logout!")
+    logout(request)
+    return redirect('index')
+
+
+@login_required
+def students(request):
+    return HttpResponse('<h1>Student Admin Page</h1>')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+go to auth.urls.py
+
+
+
+from django.contrib import admin
+from django.urls import path, include
+from users.views import index
+​
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', index, name='index'),
+    path('users/', include('users.urls')),
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+go to users.urls.py
+
+from django.urls import path
+from .views import register, user_login, user_logout
+​
+app_name = 'users'
+​
+urlpatterns = [
+​
+    path('register/', register, name='register'),
+    path('logout/', user_logout, name='logout'),
+    path('user_login/', user_login, name='user_login'),
+    path('students/', students, name='students')
+]
+
+
+
+
+
+
+
+
+
+
+
+
+pip install pillow
+pip install django-crispy-forms
+py .\manage.py createsuperuser
+py manage.py makemigrations
+py manage.py migrate
+pip freeze > requirements.txt
+py .\manage.py runserver
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			Extending Auth User
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,47 @@
+-- md dosyasinda hocanin notlari bulunmakta
+
+auth un 3 temel object i vardir:
+1: user
+2: group
+3: permission
+
+
+user olusturmanin 3 yöntemi vardir:
+1: admin panel
+2: admin panelini sadece sirket calisanlari kullanabildiginden, normal kullanicilar icinde view ile bir template olusturup bu vasita ile user olusturmak
+3: programatically user create  (yani code ile createsuperuser)
+
+
+django da default olarak bir auth sistemi mevcuttur. biz bunu direkt hazir olarak import ederiz. Bu vesile ile de hicbir template olusturmadan, user grup ve permission olusturabiliriz.
+
+
+auth ile ilgili birsey yapmadik buna ragmen home page de {{request.user}} dedigimizde; o anda login olan kullanicinin adi cikar.
+
+
+
+# admin panel de veya baska türlü user olusturduktan sonra, bir sirket calisani olarak dahi user lari sifrelerini görmemiz mümkün degil. password ler sha256 ya uygun olusturulur.
+sadece bu sifreleri degistirebiliriz. ancak bu durumda userlarin haberi olur ve tüm oturumlardan logout olur. Bu djangonun default olarak sahip oldugu cok güzel bir secure özelligi
+
+
+Bir kullanici olusturuldugunda is_active  otomatik True olur. Bunu admin panelden veya code ile False yapabilirz. Bu durumda, bazi seyleri göremez hale gelir.
+
+
+Bir user i bir gruba dahil ettigimizde, o grubun özelliklerine otomatik sahip olur. ayrica grup özellikleri haricinde extra haklar verebiliriz.
+
+
+CLI:  command line interface
+
+
+programatik olarak access in ve user olusturmanin bize admin panele göre sagladigi fayda:
+daha hizli islem yapar 
+biz her seferinde manuel olarak user eklemeyecegiz. bunu kodlar ile otomatik yapmamiz gerekecek.
+Bu durumda bunu belki bir loop a baglayacagiz
+Copy paste ile eski islemleri yapma imkani
+
+
+
+    #### shell komutlari:
+
+kodlarin hepsi hocanin notu icinde var.
+
+
