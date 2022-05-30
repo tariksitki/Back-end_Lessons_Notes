@@ -1,0 +1,8 @@
+Bu dersin ilk projesinde, Django nun User modelinden bir tablo üretmistik. Ancak bu tablo bizim tüm ihtiyaclarimizi karsilamadigi icin, ikinci bir tablo üreterek bu tabloya ihtiyacimiz olan ilave bilgileri koymus ve iki tabloyu birbirine onetoone iliski ile baglamistik. Bu projede ayni hedefe ulasmak istiyoruz ancak farkli bir yöntem izleyecegiz. Ikinci bir tablo olusturmayacagiz, bunun yerine User modelden ürettigimiz tablo üzerinde degisiklikler yapacagiz.
+
+
+Önemli:   Günümüzde username ile giris pek kalmadi. Bu nedenle email ile giris kullaniliyor. django tamamen username üzerine kuruludur. ancak email ile giris yaptirmak icin 2 yöntemimiz var.
+Birincisi su an bu projede uygulanmis durumda
+Ikincisi ise ExtendingUser.md dosyasi icin de barry hoca tarafindan verildi. 
+Bu kodlari sadece kopyala yapistir ile aliyoruz ben denedim calisti.
+views.py ve urls.py aynen kaliyor bir degisiklik yapmaya gerek yok
