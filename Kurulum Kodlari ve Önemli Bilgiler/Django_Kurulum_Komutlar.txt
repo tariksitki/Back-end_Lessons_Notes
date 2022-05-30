@@ -9,6 +9,11 @@ Kontroller ve Komutlar :
 3.	python -m pip install Django >> django yüklü değilse yükleyelim  
 
 
+pip upgrade :
+
+python -m pip install --upgrade pip
+
+
 4.	pip install virtualenv  >>  VirtualEnv, projelerinizde gerekli olan paketleri sistemden bağımsız bir şekilde kurup, kullanmanızı sağlayacak sanal ortam sağlayan bir yapıdır.
 
 ***** Buraya kadar olan kisim pc de sadece 1 kez kurmak icin. Bundan sonrakiler projeler icin

@@ -1,0 +1,62 @@
+
+{% extends 'student/base.html' %}
+
+
+{% block container %}
+
+<!-- Eger tamamen bootstrap kullanarak form olusturmak ve istedigimiz gibi style vermek istiyorsak istersek, bu sekilde de yapilabilir. Bunun icin bootstrap den template kopyalariz ve verilerin icin easagidakileri yazariz.  
+burada yazan id_first_name  kisimlarini web sayfasinda inspect yaparak bulduk
+-->
+
+<!-- <form action="">
+    <label for="id_first_name"> First Name </label>
+    {{ form.first_name }} <br>
+
+    <label for="id_last_name"> Last Name </label>
+    {{ form.last_name }} <br>
+
+    <label for="id_number"> Number </label>
+    {{ form.number }} <br>
+
+    <input type="submit" value="OK">
+</form> -->
+
+
+
+
+<!-- Bu da model den türetilen form  -->
+<!-- Önemli: asagidaki enctype yapilmaz ise resim yükleme islemleri calismaz -->
+
+{% load crispy_forms_tags %}
+
+    <div class="container">
+        {% if messages %}
+        <!-- messages bize liste yada tuple formatinda gelir bu nedenle for loop -->
+        {% for message in messages %}
+        <!-- bootstrap de error diye birsey yok danger var -->
+        {% if message.tags == "error" %}
+        <div class="alert alert-danger">{{ message }}</div>
+        {% else %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+
+
+        <form action="" method="POST" enctype="multipart/form-data" >
+            <!-- formu buraya biz context icinde göndeririz. Bu nedenle buraya dict formatinda gelir. ve bu nedenle burada bu sekilde yakalariz -->
+            {% csrf_token %}
+            {{ form | crispy }}
+            <!-- {{ form.as_table }} -->
+            <!-- {{ form.as_ul }} -->
+            <!-- Burada sadece form da yazabilirdik. 
+            p yazdigimizda her bir field i p elementi yapar -->
+        
+            <!-- Not: model den bize button gelmiyor kendimiz ekliyoruz. -->
+        
+            <input type="submit" value="OK">
+        
+        </form>
+    </div>
+
+{% endblock container %}
