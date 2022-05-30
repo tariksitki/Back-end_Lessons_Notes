@@ -1,63 +1,68 @@
 {% load static %}
 
 <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-        data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
-        aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="{% url 'home'  %}"><img src="{% static 'users/images/cw_logo.jpg' %}"
-            alt="CLARUSWAY_LOGO" />
+  <button
+    class="navbar-toggler navbar-toggler-right"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarCollapse"
+    aria-controls="navbarCollapse"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  
+  <a class="navbar-brand" href="{% url 'home' %}">
+    <img src="{% static 'users/images/cw_logo.jpg' %}" alt="CLARUSWAY_LOGO" />
+    Clarusway FS
+  </a>
 
-        Clarusway FS</a>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        {% comment %} {% url 'students' %} {% endcomment %}
+        <a class="nav-link" href="">Students</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="">Contact</a>
+      </li>
+    </ul>
 
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                {% comment %} {% url 'students' %} {% endcomment %}
-                <a class="nav-link" href="">Students</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="">Contact</a>
-            </li>
-        </ul>
+    <ul class="navbar-nav ml-auto">
+      {% if request.user.is_authenticated %} {% if request.user.is_superuser %}
 
-        <ul class="navbar-nav ml-auto">
-            {% if request.user.is_authenticated %} 
-            
-            {% if request.user.is_superuser %}
+      <!-- Kullanici is_authenticated ise ve superuser ise admin görünsün  -->
 
-            <!-- Kullanici is_authenticated ise ve superuser ise admin görünsün  -->
+      <li class="nav-item active">
+        <a class="nav-link" href="/admin">Admin</a>
+      </li>
+      {% endif %}
 
-            <li class="nav-item active">
-                <a class="nav-link" href="/admin">Admin</a>
-            </li>
-            {% endif %}
+      <!-- Kullanici is_authenticated ise ama superuser degil ise logout  -->
 
-            <!-- Kullanici is_authenticated ise ama superuser degil ise logout  -->
+      <li class="nav-item active">
+        {% comment %} {% url 'logout' %} {% endcomment %}
+        <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+      </li>
 
-            <li class="nav-item active">
-                {% comment %} {% url 'logout' %} {% endcomment %}
-                <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
-            </li>
-            
-            {% else %}
+      {% else %}
 
-            <!-- Kullanici giris yapmadi ise login menüsü  -->
+      <!-- Kullanici giris yapmadi ise login menüsü  -->
 
-            <li class="nav-item active">
-                {% comment %} {% url 'user_login' %} {% endcomment %}
-                <a class="nav-link" href="">Log In</a>
-            </li>
-            <!-- ##  -->
-            {% endif %}
+      <li class="nav-item active">
+        {% comment %} {% url 'user_login' %} {% endcomment %}
+        <a class="nav-link" href="{% url 'login' %}">Log In</a>
+      </li>
+      <!-- ##  -->
+      {% endif %}
 
-            <!-- Register ise condition lar haricinde her halükarda gösterilecek  -->
+      <!-- Register ise condition lar haricinde her halükarda gösterilecek  -->
 
-            <li class="nav-item active">
-                {% comment %} {% url 'register' %} {% endcomment %}
-                <a class="nav-link" href="">Register</a>
-            </li>
-        </ul>
-    </div>
+      <li class="nav-item active">
+        {% comment %} {% url 'register' %} {% endcomment %}
+        <a class="nav-link" href="">Register</a>
+      </li>
+    </ul>
+  </div>
 </nav>
