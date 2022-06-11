@@ -96,24 +96,43 @@ from .models import Product
 
 admin.site.register(Product)
 
+
+
+# Bu kod browser in tab in da bulunan title i degistirir
 admin.site.site_title = "Clarusway Title"
+
+
+
+## Admin page de baslik olan Django administration  ismini degistirmek
 admin.site.site_header = "Clarusway Admin Portal"  
+
+
+
+#Site administration isimli basligi degistirmek:
 admin.site.index_title = "Welcome to Clarusway Admin Portal"
 ```
 
-Add data with Faker package
+Add data with Faker package:
+Bu paket bize damy data saglar. Modellerimizde ve db mizde template lerimizde kullanmak icin
+
 * pip install Faker
+# Bu projede pip ile baslayan komutlar calismiyor. o nedenle pip ile baslayan tüm komutlarin baslarina, python -m pip install Faker olarak yaziyorz. diger tüm komutlarda da bu sekilde.
 
 py manage.py shell
 go to shell:
 ```bash
-from products.models import Product
+from product.models import Product
 from faker import Faker
 faker = Faker()
 
 for i in range(1,200):
 	product = Product(name=faker.name(),description=faker.paragraph(),is_in_stock=False)
 	product.save()
+## Note:  
+## shell de; faker.name() komutunu her calistirdigimizda yeni bir isim üretir.  
+## faker.paragraph()  komutunu her calistirdigimizda ise yeni bir fake description üretir.
+
+- eger model tanimlama esnasinda is_in_stock = False deseydik default olarak false yapardi ve burada tekrar yazmak zorunda kalmazdik.
 ```
 
 go to admin site and check data 
