@@ -1,0 +1,244 @@
+Document daki yeri
+
+https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#module-django.contrib.admin
+
+
+Introduction Admin Site
+One of the most powerful parts of Django is the automatic admin interface. It reads metadata from your models to provide a quick, model-centric interface where trusted users can manage content on your site. 
+
+
+
+Accessing the Admin Site
+In order to access the admin site, we need to create a super user. We need a user table to add the super user. For this, we must first create our project and run thepython manage.py migrate command. In this way, we will be able to use the database tables that django provides to us. After this process we can now create superuser. We have to run python manage.py createsuperuser command in terminal Then, for the superuser, we will be asked to enter the username, email and password information respectively from the terminal (in this process, we must press the enter key to go to the next information).
+
+
+After entering the information, we now have a superuser. we can login to the admin site with the super user we created. Now we are going to browser.. We can access the login page by typing http://127.0.0.1:8000/adminin the address section of the browser. A login page like the one below will welcome us.
+
+
+We can log in to the admin site with the username and password we set when creating the superuser.
+
+Congratulations.. We have logged into the admin site.
+
+
+
+
+Groups and Users are defined by Django and store information and permissions for accounts on the system.
+
+
+
+
+
+
+
+
+
+Django Admin Site
+Adding Model And Data
+
+
+
+
+
+We need a model and data to see the customization we will make on the admin site.
+
+Lets create a Student model in models.py file:
+
+
+
+
+
+from django.db import models
+
+class Student(models.Model):
+    name = models.CharField(max_length=50)
+    number = models.IntegerField()
+    about = models.TextField()
+    is_active = models.BooleanField(default=True)
+    register_date = models.DateTimeField(auto_now_add=True)
+    update_date = models.DateTimeField(auto_now=True)
+    slug = models.SlugField(null=True, blank=True)
+    
+    
+    def __str__(self):
+        return self.name
+
+
+
+
+
+As you know, we need to run python manage.py makemigrations and python manage.py migrate commands in the terminal to activate the model we created in the database.
+
+Finally, we need to register our model in admin.py file so that we can see it on the admin site.
+
+
+
+from django.contrib import admin
+from .models import Student
+
+
+admin.site.register(Student)
+
+
+
+
+Adding Data
+
+Admin sitesinde yapacağımız özelleştirmeyi daha iyi görebilmek için veritabanına bol miktarda veri eklemek iyi olur.
+
+It would be good to add plenty of data to the database in order to better see the customize we will do on the admin site. We will use python's Faker package for this. Let's install the package with the pip install Faker command in the terminal. Then let's open a shell terminal with the python manage.py shell command
+
+
+
+
+
+shell acildiktan sonra
+
+from fscohort.models import Student
+
+from faker import Faker
+
+faker = Faker()
+
+for i in range(1, 150):
+	student = Student(name = faker.name(), about = faker.paragraph(), is_active = False, number = faker.random_int(min=0, max=5000))
+
+
+
+
+
+
+Let's add data through the shell in the same way, but this time let's set the is_active fields to True. Then we can see the data we added on the admin site.
+
+
+
+
+
+
+
+
+
+
+
+ModelAdmin Class
+
+
+With the default interface offered by the Django Admin site, we can perform CRUD operations on the instances of our model. In order to gain more capability, we need to define the ModelAdmin class for our model.
+
+The ModelAdmin class is the representation of a model in the admin interface. It encapsulate all admin options and functionality for a given model. We define this class in the admin.py file.
+
+
+
+
+from django.contrib import admin
+from .models import Student
+
+class StudentAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Student, StudentAdmin)
+
+
+
+
+
+
+
+modelAdmin class has many built in attributes and methods. We customize the admin site by overriding these attributes and methods. Some of these attributes are list_display, list_filter, ordering, search_fields, actions etc. For more info and full list of modelAdmin attributes and methods please go to documentation
+
+
+
+
+
+
+
+
+List_Display
+Set list_display to control which fields are displayed on the change list page of the admin.
+
+
+
+
+
+
+
+
+List_Filter
+Set list_filter to activate filters in the right sidebar of the change list page of the admin, as illustrated in the following screenshots
+
+
+
+
+
+
+Ordering
+
+Set ordering to specify how lists of objects should be ordered in the Django admin views. This should be a list or tuple in the same format as a model’s ordering parameter.
+
+If this isn’t provided, the Django admin will use the model’s default ordering.
+
+If you need to specify a dynamic order you can implement a get_ordering() method.
+
+eger ordering icinde name tanimlarsak bu durumda alfabetik siralamada yapar.
+
+
+
+
+
+
+
+
+
+
+
+
+Search:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
