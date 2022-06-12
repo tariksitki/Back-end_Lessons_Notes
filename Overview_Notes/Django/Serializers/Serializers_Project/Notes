@@ -1,0 +1,36 @@
+
+Rest api bölümünde template ler hayatimizdan cikiyor. 
+Artik modellerimiz yine olacak. Modellerimiz serializer tarafindan dönüstürülecek ve kullaniciya json olarak sunacagiz.
+
+
+Serializer icin iki secenek var
+Serializer class
+ModelSerializer class
+
+Bunlarin haricinde el ile manuel yazilanlarda var ama onlari biz görmeyecegiz.
+
+
+API:
+
+Bir uygulama programlama arabirimi, bilgisayarlar arasında veya bilgisayar programları arasında bir bağlantıdır.
+Diğer yazılım parçalarına hizmet sunan bir tür yazılım arayüzüdür.
+Böyle bir bağlantının veya arayüzün nasıl oluşturulacağını açıklayan bir belge veya standarda API denir.
+Şartname.
+API'nin birincil amacı, web servisleri arasındaki veri alışverişini standart hale getirmektir. API türüne bağlı olarak,
+protokol değişikliklerinin seçimi. Öte yandan, REST API, web hizmetleri oluşturmak için mimari bir stildir.
+bir HTTP protokolü aracılığıyla etkileşime girer.
+API, isteğinizi, talep ettiğiniz sağlayıcıya ileten ve ardından
+yanıtı size geri gönderir.
+
+
+
+Arka planda web server, database den veri ceker. Bu islem backend de python js yada baska bir dil ile yapilabilir. ama frontend e gönderirken herkesin anlayacagi bir dile dönüsmesi gerekir. Bu nedenle uluslararasi kabul görmüs json formatina dönüsür. front da herkes kullanabilir.
+
+Tam tersini düsündügümüzde, front dan gönderilen istek bize json formatinda gelir. Bu veri backend de view vasitasi ile python a (bizim icin) dönüsür. Daha sonra db ye gönderilir.
+
+
+
++++ Rest api özellik ve kurallari:   
+https://medium.com/kodgemisi/rest-api-tasarim-rehberi-2f004a87426d
+
+
