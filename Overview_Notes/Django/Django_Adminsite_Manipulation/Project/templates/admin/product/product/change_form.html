@@ -1,0 +1,18 @@
+
+{% extends 'admin/change_form.html' %}
+
+
+
+{% comment %}
+    env altindaki template lere gidip baktik ve degistirebilecegimiz block lari alarak burada kullandik.
+{% endcomment %}
+    
+
+{% block form_top %}
+    <h1>Product model new template</h1>
+{% endblock  %}
+
+
+{% block after_field_sets %}
+    <p>Burasi after_field_sets </p>
+{% endblock %}
