@@ -1,6 +1,10 @@
 
-from unittest.util import _MAX_LENGTH
+
 from rest_framework import serializers
+from .models import Student, Path
+from django.db import models
+
+## Note: serializer kisminda, model de olusturdugumuz class a ait field lari gösterebiliriz. Eger model de olmayan bir field i seria da göstermek istersek hata aliriz.
 
 
 # burada StudentSerializer altinda belirledigimiz isimler bizim dönüstürmek istedigimiz verilerdir. Bu veriler json a dönüsecek. Bunu serializers yapacak.
@@ -9,10 +13,25 @@ class StudentSerializer(serializers.Serializer):
     first_name = serializers.CharField(max_length=200)
     last_name = serializers.CharField(max_length=200)
     number = serializers.IntegerField()
-    # Not: Normalde models.py da 5 tane field var. ama biz burada 3 tanesini json a dönüstürdügümüz icin, kullanici 3 tane field görüyordu. Bir buna ilave olarak birde id görsün istiyoruz. Models de id yok ama django kendisi db de otomatik olusturur. simdi biz bu hazir id yi user a sunuyoruz.
-    id = serializers.IntegerField()
 
- 
+    # Not: Normalde models.py da 5 tane field var. ama biz burada 3 tanesini json a dönüstürdügümüz icin, kullanici 3 tane field görüyordu. Bir buna ilave olarak birde id görsün istiyoruz. Models de id yok ama django kendisi db de otomatik olusturur. simdi biz bu hazir id yi user a sunuyoruz.
+    # id = serializers.IntegerField()
+
+    # su ana kadar yazdigimiz kodlar ile sadece json formatinda okuma islemi yapabiliriz. Eger template de post islemi yapmak istersek hata aliriz. Bu nedenle simdi asagidaki kodlari yazacagiz:
+
+    def create(self, validated_data):
+            return Student.objects.create(**validated_data)
+        ## eger user tarafindan girilen veri validated ise, bu bilgiler ile yeni bir veri create ederiz.
+        # *  ile ** ayni degildir.
+
+    def update(self, instance, validated_data):
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.number = validated_data.get('number', instance.number)
+        # burada bir ternary if mantigi var. eger validated data nin icinde yeni bir veri geldi ise ve o veri hangi field da degisiklik sonucu olustuysa o field in yeni hali o olacak. eger degisiklik yapilmadi ise instance.number seklinde yazilan eski hali olacak.
+
+        instance.save()
+        return instance
 
 
 

@@ -54,3 +54,11 @@ https://medium.com/kodgemisi/rest-api-tasarim-rehberi-2f004a87426d
 
 eger projelerimizde template ler ile ilgilenmeyecegimizden emin isek 
 sadece pip install djangorestframework   yüklemesi yapilabilir. Bu durumda django yüklemeye ihtiyac kalmaz.
+
+
+DRF docd da mesela serializers methodlarina bakmak icin, önce sayfanin yukarisinda bulunan api guide kismina tiklanir sonra istedigimiz yere gidilir.
+
+serializers methodlari icin link :
+https://www.django-rest-framework.org/api-guide/serializers/
+
+

@@ -14,7 +14,7 @@ class Path(models.Model):
 
 
 
-
+## Note: burada path kisminda null=True demedigimizde, template den post islemi yapamadik. Null true dedigimizde ise, ögrenci create ettigimizde path  kismi null oluyor.
 class Student(models.Model):
     path = models.ForeignKey(Path, related_name="students", on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
@@ -24,4 +24,4 @@ class Student(models.Model):
 
     
     def __str__(self):
-        return self.first_name
+        return self.last_name
