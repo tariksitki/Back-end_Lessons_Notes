@@ -1,0 +1,418 @@
+Now, we'll use function-based views. Open your fscohort_api/views.py and write this code.
+
+
+Now, we'll use function-based views. Open your fscohort_api/views.py and write this code.
+
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from .serializers import StudentSerializer
+from fscohort.models import Student
+
+
+Not: func based view da; get ve post tek bir func icinde bulunur. ayrimlari ise if elif yapisi ile olusturulur.
+Class based de ise, get ve post icin ayri ayri methodlar kurulur. ama ikisi de ayni class icinde olur.
+
+
+@api_view(['GET', 'POST'])
+def student_list(request):
+    """
+    List all students, or create a new student.
+    """
+    if request.method == 'GET':
+        students = Student.objects.all()
+        serializer = StudentSerializer(students, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = StudentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def student_detail(request, pk):
+    """
+    Retrieve, update or delete student.
+    """
+    try:
+        student = Student.objects.get(pk=pk)
+    except Student.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = StudentSerializer(student)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = StudentSerializer(student, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        student.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+
+
+
+
+
+
+### Link for Status Code :
+
+https://www.django-rest-framework.org/api-guide/status-codes/
+
+
+
+
+
+is_informational()  # 1xx
+is_success()        # 2xx
+is_redirect()       # 3xx
+is_client_error()   # 4xx
+is_server_error()   # 5xx
+
+
+
+
+*  Not: func based view kullanmak istiyorsak api_view decorator. kullanmak zorundayiz.
+
+
+
+
+
+line 1 to use status code in our views, we import status module. You can see the full list of status code here
+
+line 2 we imported Response class which allows you to return content that can be rendered into multiple content types, depending on the client request.
+
+line 3 we import api_view decorator. We must use this when writing function-based views to use DFR.
+
+line 15 we serialized the student object and used many=True. When you serialize more than one object you have to use many=True.
+
+line 19 we used request.data. request.data returns the parsed content of the request body. This is similar to the standard request.POST. It supports parsing the content of HTTP methods other than POST, meaning that you can access the content of PUT and PATCH requests.
+
+
+
+
+
+
+
+
+Open your clarusway/urls.py and add this URL.
+
+urlpatterns = [
+    ........
+    path('api/', include('fscohort_api.urls'))
+]
+
+
+
+
+
+
+### Önemli:  Normalde view icindeki func lar tek tek import edilir. Burada views i komple import etmis. sonra tüm func lar kullanilabiliyor.
+
+
+
+Open your fscohort_api/urls.py
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.student_list),
+    path('< int:pk >/', views.student_detail),
+]
+
+
+
+When you go to http://127.0.0.1:8000/api/ you can see a browsable api from the django rest framework.
+
+
+
+
+
+
+
+
+
+
+
+Class Based Views:
+
+
+
+
+
+Using the Class-Based structure we do the same operations that we did use the Function Base structure on the previous page. As you can see below, it provides a more organized code structure. The logic and codes are almost the same. Review the codes, please.
+
+
+
+
+
+
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializers import StudentSerializer
+from fscohort.models import Student
+
+
+class StudentList(APIView):
+    
+    def get(self, request):
+        students = Student.objects.all()
+        serializer =StudentSerializer(students, many=True)
+        return Response(serializer.data)
+    
+    def post(self, request):
+        serializer = StudentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serialize.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class StudentGetUpdateDelete(APIView):
+    
+    def get_object(self, id):
+        try:
+            return Student.objects.get(id=id)
+        except Student.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+    def get(self, request, id):
+        #student = get_object_or_404(Student, id=id)
+        student = self.get_object(id)
+        serializer = StudentSerializer(student)
+        return Response(serializer.data)
+    
+    def post(self, request, id):
+        student = self.get_object(id)
+        serializer = StudentSerializer(student, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            data = {
+                "message":"Student updated"
+            }
+            return Response(data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def  delete(self, request, id):
+        student = self.get_object(id)
+        student.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+
+
+
+
+
+- line 3 We imported APIVıew class and inherited our classes from APIVıew class.
+
+Then configure our urls.py file:
+
+
+
+
+from django.urls import path
+from . import views as api_views
+
+urlpatterns = [
+    path("", api_views.StudentList.as_view(), name="list"),
+    path("/", api_views.StudentGetUpdateDelete.as_view(), name="detail"),
+]
+
+
+
+
+
+
+
+
+
+
+
+
+Generic Views And Mixins
+
+
+
+
+Since the operations we perform for CRUD operations in Django are generally similar operations, so structures that perform these operations for us in the background have been developed. In this way, we get rid of rewriting the same codes and we do the same work with less code.
+For this purpose, GenericAPIViews and Mixins have been created by DRF. Generic APIViews are inherited from APIView that we use in Class-Based Views and give them extra features. GenericApiViews are often used with mixins. Mixins adds .create() and .list() capabilities to GenericAPIViews. You can think of them like .get() and .post()
+Let's write the same operations with GenericAPIViews and Mixins:
+
+
+
+
+
+
+
+from fscohort.models import Student
+from .serializers import StudentSerializer
+from rest_framework import generics, mixins
+
+class StudentDetail(generics.GenericAPIView,mixins.UpdateModelMixin, mixins.DestroyModelMixin, mixins.RetrieveModelMixin ):
+    
+    serializer_class = StudentSerializer
+    queryset = Student.objects.all()
+    lookup_field = "id"
+    
+    def get(self, request, id):
+        return self.retrieve(request)
+             
+    def put(self, request, id):
+        return self.update(request, id)
+    
+    def delete(self, request, id):
+        return self.destroy(request,id)
+
+
+class Student(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
+    
+    serializer_class = StudentSerializer
+    queryset = Student.objects.all()
+ 
+        
+    def get(self, request):
+        return self.list(request)
+    
+    def post(self, request):
+        return self.create(request)
+
+
+
+
+
+
+
+
+
+line 3 we imported generics and mixins from rest_framework
+line 7 we define the serializer_class (the name is standard) which we created before.
+line 8We define the query_set (the name is standard) according to the view logic we will set up
+line 9Lookup_field: It specifies which field we will call the objects from. It should be unique
+NOTE: We use lookup_field and id as we will call a specific object for GET, PUT, DELETE operations from django.urls import path from .views import Student, StudentDetail Let's configure urls.py file :
+
+
+
+
+
+
+
+
+urlpatterns = [
+    path("list/", Student.as_view(), name="list"),
+    path("", StudentDetail.as_view(), name="detail"),
+]
+
+
+
+
+
+
+When you go to http://127.0.0.1:8000/api/list you can see a browsable API from the DRF, Student list and a form for create student
+
+If you want to view a specific student object you should use the id of the student. For example, http://127.0.0.1:8000/api/16 endpoint brings us the student whose id number is 16.
+
+we can see GET, PUT, DELETE options for this student in the browsable API.
+
+
+
+
+
+
+
+Concrete Views
+We learned what was going on in the background with GenericAPIView and Mixins. Our main goal is to learn Concrete views. Concrete views offer us all the functionality we will need with much less code.
+
+Each concrete view consists of a GenericAPIView and associated Mixins. for example: ListCreateApiView is a combination of ListModelMixin, CreateModelMixin and GenericAPIView. 
+
+
+So ConcreteViews are the easiest views to write and read. Let's code the same operations with concrete views
+
+
+
+
+
+
+
+
+
+from rest_framework import generics
+
+class StudentList(generics.ListCreateAPIView):
+    serializer_class = StudentSerializer
+    queryset = Student.objects.all()
+    
+
+class StudentGetUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = StudentSerializer
+    queryset = Student.objects.all()
+    lookup_field = "id"
+
+
+
+
+
+Let's configure urls.py file :
+
+
+
+
+urlpatterns = [
+    path("list/", StudentList.as_view(), name="list"),
+    path("list/<int:id>/", StudentGetUpdateDelete.as_view(), name="detail"),
+
+]
+
+
+
+
+
+Let's view same response in the Browsable API ( http://127.0.0.1:8000/api/list) 
+
+
+For a specific student ( http://127.0.0.1:8000/api/list/16)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

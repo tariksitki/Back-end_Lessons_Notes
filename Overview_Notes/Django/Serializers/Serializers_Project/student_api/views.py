@@ -5,8 +5,12 @@ from .serializers import StudentSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+
+
 def home(request):
     return HttpResponse('<h1>API Page</h1>')
+
+
 
 @api_view(['GET', 'POST'])
 def student_api(request):

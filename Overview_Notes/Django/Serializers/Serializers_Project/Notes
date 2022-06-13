@@ -1,11 +1,27 @@
 
+### Önemli: 
+# Rest framework yüklendikten sonra; settings.py da app lere eklenmesi gerekir.
+
+
+## MVT yapimiz artik su sekilde:
+# Model: burada dil python
+# Serializer : dönüstürme islemi
+# View: logicler belirlenir
+# Url:  Kullaniciya sunma kismi. Burada dil Json
+
+
+
 Rest api bölümünde template ler hayatimizdan cikiyor. 
 Artik modellerimiz yine olacak. Modellerimiz serializer tarafindan dönüstürülecek ve kullaniciya json olarak sunacagiz.
 
 
 Serializer icin iki secenek var
-Serializer class
-ModelSerializer class
+Serializer class  (serializers.Serializer)  burada tüm kodu kendimiz yazariz
+Burada eger sadece gösterim yapacaksak, create ve update func lari yazmamiza gerek yok. ama bu islemler olacaksa bu kodlari da kendimiz yazariz.
+Son olarak da instance.save()
+
+
+ModelSerializer class  (Burada ise model den inherit ederiz. cok az kod)
 
 Bunlarin haricinde el ile manuel yazilanlarda var ama onlari biz görmeyecegiz.
 
@@ -34,3 +50,7 @@ Tam tersini düsündügümüzde, front dan gönderilen istek bize json formatind
 https://medium.com/kodgemisi/rest-api-tasarim-rehberi-2f004a87426d
 
 
+
+
+eger projelerimizde template ler ile ilgilenmeyecegimizden emin isek 
+sadece pip install djangorestframework   yüklemesi yapilabilir. Bu durumda django yüklemeye ihtiyac kalmaz.
