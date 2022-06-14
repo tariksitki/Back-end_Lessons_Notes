@@ -62,3 +62,47 @@ serializers methodlari icin link :
 https://www.django-rest-framework.org/api-guide/serializers/
 
 
+#### Put ve patch arasindaki fark:
+
+Put da tek bir alanda degisse tüm veri de degisse, elimizdeki tüm veri gider ve tüm veri geri döner.
+Patch de ise partial dir. sadece degisen kisim gider ve degisen kisim geri döner.
+Put islemi yaparken bir tane field bile eksik olsa hata aliriz. Tüm alanlari girmemiz gerekir.
+
+
+
+
+
+## Burada docs dan alinmis bir örnek var. Burada def validate_title kisminda validate olmak zorunda. _  den sonra ise;  hangi alanin validate olup olmadigini kontrol etmek istiyorsak o alan yazilir. eger burada content i kontrol etmek isteseydik onu yazacaktik.
+
+class BlogPostSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length=100)
+    content = serializers.CharField()
+
+    def validate_title(self, value):
+        """
+        Check that the blog post is about Django.
+        """
+        if 'django' not in value.lower():
+            raise serializers.ValidationError("Blog post is not about Django")
+        return value
+
+    ## eger ifade icinde django kelimesi yoksa hata verecek.
+
+
+
+
+
+########   object level validation:
+
+class EventSerializer(serializers.Serializer):
+    description = serializers.CharField(max_length=100)
+    start = serializers.DateTimeField()
+    finish = serializers.DateTimeField()
+
+    def validate(self, data):
+        """
+        Check that start is before finish.
+        """
+        if data['start'] > data['finish']:
+            raise serializers.ValidationError("finish must occur after start")
+        return data

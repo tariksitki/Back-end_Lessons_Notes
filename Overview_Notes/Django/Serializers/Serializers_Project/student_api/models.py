@@ -14,9 +14,16 @@ class Path(models.Model):
 
 
 
-## Note: burada path kisminda null=True demedigimizde, template den post islemi yapamadik. Null true dedigimizde ise, ögrenci create ettigimizde path  kismi null oluyor.
+## Note: DRF template inde create yaparken serializer da path olmadigi icin path secimi yapamiyoruz. Bu nedenle burada path kisminda null=True demedigimizde, template den post islemi yapamadik. Null true dedigimizde ise, ögrenci create ettigimizde path  kismi null oluyor.
+## Diger bir cözüm olarak da default atamayi kullandik.
+
+## Burada iki tane modelimiz var. Bu modellerden student icinde path yazdik ve bunu foreign key ile bagladik. Bu nedenle, db de student tablomuza baktigimizda; bunun icinde path_id column u görürüz. ama path tablosuna gittigimizde;  burada student ile ilgili birsey görmeyiz.
+
+
+
+
 class Student(models.Model):
-    path = models.ForeignKey(Path, related_name="students", on_delete=models.CASCADE)
+    path = models.ForeignKey(Path, related_name="students", on_delete=models.CASCADE, default=1)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     number = models.IntegerField(null=True)
@@ -24,4 +31,5 @@ class Student(models.Model):
 
     
     def __str__(self):
-        return self.last_name
+        return f"{self.number}, {self.first_name}, {self.last_name}"
+    
