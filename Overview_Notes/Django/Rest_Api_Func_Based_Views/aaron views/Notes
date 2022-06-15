@@ -1,0 +1,44 @@
+
+- Bu projedeki senaryomuz:  Bizden bir todo app icin api istediler. Bu api ye istek atacaklar modil den veya normal. 
+
+
+Db olarak sqlite yada postgres kullanmak icin yapmamiz gereken tek sey; settings.py da bir db icin olusturulan ayari kapatip digerini acmaktir.
+
+
+ER Diagram nedir ? 
+http://berkay22demirel.blogspot.com/2018/10/sql-er-diagram-entity-relationship.html
+
+Siralama:
+
+Varlıklar belirlenir.
+Varlıkların nitelikleri belirlenir.
+Varlıklar arasındaki ilişkiler belirlenir.
+ER diyagramı çizilir.
+Tasarlanan ER diyagramı gerekli normalizasyon filtresinden geçirilir.
+Gerekirse ER tasarımı tekrardan çizilir. 
+
+
+
+Birincil Anahtar (Primary Key): Tablolarda benzersiz kayıtlar elde etmemizi sağlayan sütuna verilen addır.
+İkincil Anahtar (Foreign Key): Bir tabloda benzersiz kayıt oluşturmayı sağlayan sütunun diğer tabloda bir sütun olarak bulunmasına denir.
+
+
+Eger makemigrations yada migrate komutlarini yazmamiza ragmen calismazsa;  bu durumda bu komutlarin sonuna app imizin adini yazariz.
+
+
+
+Note: Django da modelimizi kullaniciya göstermek icin ve kullanicidan veri almak icin form olustuuryorduk. Rest api de ise db ye veri girisi yada cikisi olsun farketmez, her model icin serializer olusturulur.
+
+MSV:   Model serializer view
+
+
+Rest Framework de Islem Sirasi:
+
+1: Model de model olusturulur
+2: Serializer yazilir
+3: View da logic yazilir.
+4: Url de adres yazilir.
+
+
+
+
