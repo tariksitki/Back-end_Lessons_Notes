@@ -1,0 +1,13 @@
+
+
+Postman in iki türlü kullanimi vardir. masüstü app ve browser
+
+Biz burada isteklerimizi local host dan attigimiz icin bizim isteklerimiz browser da calismaz. masaüstü uygulamasinda calisir.
+
+
+url yazdigimiz yerin sol tarafinda method secerek tüm method lari postman de de calistirabiliyoruz.
+
+
+
+### Önemli:
+eger row ile veri girip json seklinde yazarak post yapmak istersek,  sag tarafta bulunan veri tipini json yapmamiz gerekir. aksi takdirde hata aliyoruz.

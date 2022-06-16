@@ -40,5 +40,5 @@ Rest Framework de Islem Sirasi:
 4: Url de adres yazilir.
 
 
-
-
+Önemli: postgres kullanimi icin öncelikle install islemi var.
+Sonra settings.py da databases da ayaralari yapmak gerekir.

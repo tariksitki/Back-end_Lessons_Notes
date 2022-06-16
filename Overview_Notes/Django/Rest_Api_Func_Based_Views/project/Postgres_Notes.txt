@@ -1,0 +1,53 @@
+
+Db olarak Postgres kullanma islem sirasi:
+
+1: pip install psycopg2
+
+2: settings.py da db ayarlari
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": config("SQL_DATABASE"),
+        "USER": config("SQL_USER"),
+        "PASSWORD": config("SQL_PASSWORD"),
+        "HOST": config("SQL_HOST"),
+        "PORT": config("SQL_PORT"),
+        "ATOMIC_REQUESTS": True,
+    }
+}
+
+
+3:  settings.py daki ayarlari ister direkt orada yapariz ister .env icinde yapariz.
+Burada önemli olan sifre kismina kendimiz postgres de kullandigimiz sifreyi girmek.
+todoapidb : yeni olusacak db adi
+postgres :  db yi kullanacak kisi adi 
+
+
+SECRET_KEY=*tj+&w1!cfzmb&p5meb7mzwip68^bo7el#&=rk9r46!n(qt5r(
+DEBUG = True
+SQL_DATABASE = todoapidb
+SQL_USER = postgres
+SQL_PASSWORD = Stc54321.
+SQL_HOST = localhost
+SQL_PORT = 5432
+
+
+4: PG admin de PostgreSql14 üzerine tiklanir ve sifre girilir.
+Daha sonra databases üzerine gelip create database denilir.
+
+5: Vs code da migrations komutlari calistirilir ve runserver yapilir. 
+
+Kullanima hazir.
+
+
+
+
+## Verilerini görmek istedigimiz tablo üzerine gelip sag tiklairz ve view edit data all rows deriz.
+
+
+## settings.py da db ayarlarinda  "ATOMIC_REQUESTS": True su anlama gelir:
+Banka islemlerinde, eger islem tam bitmeden mesela elektirk gittiyse islemi basa sariyor. yani islem tam bitmeden hicbirsey yapmiyor.
+
+
+## Note: önce postgres de manuel olarak model olusturup sonrasinda vs code da calisamayiz. Cünkü bizim serializer icin bir modele ihtiyac vardir. Bunun icin ancak su yapilabilir. postgres de model olusturulur. Bunun kod karsiligi alip vs code da yine models de kullanilabilir. 

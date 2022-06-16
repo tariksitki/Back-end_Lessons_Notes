@@ -123,6 +123,8 @@ def todoListCreate(request):
 @api_view(["GET", "PUT"])
 def todoUpdate(request, pk):
     queryset = Todo.objects.get(id = pk)
+        ## get yerine filter su sekilde kullanilir:
+    # queryset = Todo.objects.filter(id = pk)[0]
 
     if request.method == "GET":
         ## dikkat burada tek eleman o nedenle many=true yok
@@ -133,9 +135,60 @@ def todoUpdate(request, pk):
 
     elif request.method == "PUT":
         serializer = TodoSerializers(instance=queryset, data=request.data)
-        ### bu kodun anlami su: request ile gelen ve update edilmek istenen veriyi instance=queryset olarak sol cebine koy. Bu verinin databaseden gelen halini data=request.data olarak sag cebine koy. Ve ikisi üzerinde karsilastirma yap demek.
+        ### bu kodun anlami su: request ile gelen ve update edilmek istenen veriyi data=request.data olarak sol cebine koy. Bu verinin databaseden gelen halini instance=queryset olarak sag cebine koy. Ve ikisi üzerinde karsilastirma yap demek.
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
+
+## Dikkat: Bu func icinde serializer kullanmiyoruz. Cünkü kullaniciya gösterdigimiz bir veri yok. sadece delete yapiliyor.
+
+@api_view(["DELETE", "GET"])
+def todoDelete(request, pk):
+    queryset = Todo.objects.get(id = pk)
+    if request.method == "GET":
+        serializer = TodoSerializers(queryset)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    elif request.method == "DELETE":
+        queryset.delete()
+        return Response("Item deleted succesfully")
+
+
+
+
+
+
+##########   Simdi Update, delete, get tek func da birlestirme:
+### dikkat ["GET", "PUT", "DELETE"] burada hangisi yazilir ise browser da onlar gelir.
+
+@api_view(["GET", "PUT", "DELETE"])
+def todoUpdate(request, pk):
+    queryset = Todo.objects.get(id = pk)
+        ## get yerine filter su sekilde kullanilir:
+    # queryset = Todo.objects.filter(id = pk)[0]
+
+    if request.method == "GET":
+        ## dikkat burada tek eleman o nedenle many=true yok
+        serializer = TodoSerializers(queryset)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        
+    elif request.method == "PUT":
+        serializer = TodoSerializers(instance=queryset, data=request.data)
+        ### bu kodun anlami su: request ile gelen ve update edilmek istenen veriyi data=request.data olarak sol cebine koy. Bu verinin databaseden gelen halini instance=queryset olarak sag cebine koy. Ve ikisi üzerinde karsilastirma yap demek.
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == "DELETE":
+        queryset.delete()
+        return Response("Item deleted succesfully")
